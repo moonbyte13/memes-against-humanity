@@ -17,7 +17,25 @@ const userSchema = new Schema(
     password: {
       type: String,
       required: true,
-    }
+    },
+    memes: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Meme',
+      },
+    ],
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Comment',
+      },
+    ],
+    favorites: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Favorite',
+      }
+    ],
   },
   // set this to use virtual below
   {
@@ -40,7 +58,6 @@ userSchema.pre('save', async function (next) {
 userSchema.methods.isCorrectPassword = async function (password) {
   return bcrypt.compare(password, this.password);
 };
-
 
 const User = model('User', userSchema);
 
