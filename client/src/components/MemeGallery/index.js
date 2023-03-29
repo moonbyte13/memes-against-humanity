@@ -17,13 +17,12 @@ function GiphyGallery() {
   return (
     <div>
       <h2>Popular Memes</h2>
-      <div className="gallery">
+      <div className="gallery grid grid-cols-2 gap-4 p-4">
         {gifs.map((gif) => (
           <img
             key={gif.id}
             src={gif.images.downsized_medium.url}
             alt={gif.title}
-            width='50%'
           />
         ))}
       </div>
