@@ -32,6 +32,7 @@ const resolvers = {
       }
       return meme;
     },
+
     // userMemes query, returns all memes created by a user and populates the creator, ratings, comments and favorites fields
     userMemes: async (parent, args, { user }) => {
       if (!user) {
@@ -42,9 +43,38 @@ const resolvers = {
         .populate("ratings")
         .populate("comments")
         .populate("favorites");
+
       return memes;
-    },
-  },
+    }, // userMemes
+
+    // me
+
+    // get a single comment by memeid and commentid
+    getComment: async (parent, { memeId, commentId }, context) => {
+      if (context.user) {
+        const meme = await Meme.findById(memeId);
+        const comment = meme.comments.id(commentId);
+        if (!comment) {
+          throw new Error("Comment not found");
+        }
+
+        return comment;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    }, // getComment
+
+    // get all comments by a memeid
+    getCommentsByMemeId: async (parent, { memeId }, context) => {
+      if (context.user) {
+        const meme = await Meme.findById(memeId);
+        if (!meme) {
+          throw new Error("Meme not found");
+        }
+        return meme.comments;
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    }, // getCommentsByMemeId
+  }, // Query
 
   Mutation: {
     addUser: async (parent, args) => {
@@ -52,7 +82,8 @@ const resolvers = {
       const token = signToken(user);
 
       return { token, user };
-    },
+    }, // addUser
+
     login: async (parent, { email, password }) => {
       const user = await User.findOne({ email });
       if (!user) {
@@ -64,7 +95,70 @@ const resolvers = {
       }
       const token = signToken(user);
       return { token, user };
-    },
+    }, // login
+
+    addComment: async (parent, { memeId, commentText }, context) => {
+      if (context.user) {
+        return Meme.findOneAndUpdate(
+          { _id: memeId },
+          {
+            $addToSet: {
+              comments: {
+                commentText,
+                commentAuthor: context.user.username,
+              },
+            },
+          },
+          {
+            new: true,
+            runValidators: true,
+          }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    }, // addComment
+
+    updateComment: async (
+      parent,
+      { memeId, commentId, commentText },
+      context
+    ) => {
+      if (context.user) {
+        const meme = await Meme.findById(memeId);
+        const comment = meme.comments.id(commentId);
+
+        if (comment.commentAuthor !== context.user.username) {
+          throw new AuthenticationError(
+            "You are not authorized to update this comment"
+          );
+        }
+
+        comment.commentText = commentText;
+
+        return await meme.save();
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    }, // updateComment
+
+    removeComment: async (parent, { memeId, commentId }, context) => {
+      if (context.user) {
+        return Meme.findOneAndUpdate(
+          { _id: memeId },
+          {
+            $pull: {
+              comments: {
+                _id: commentId,
+                commentAuthor: context.user.username,
+              },
+            },
+          },
+          {
+            new: true,
+          }
+        );
+      }
+      throw new AuthenticationError("You need to be logged in!");
+    }, // removeComment
 
     //add mutation for creating a meme
     // the creator field is populated with the user._id
@@ -77,7 +171,8 @@ const resolvers = {
       const meme = new Meme({ title, imageUrl, creator: user._id });
       await meme.save();
       return meme;
-    },
+    }, // createMeme
+
     //add mutation for updating a meme
     // finding the meme by id
     // checking if the meme exists
@@ -99,7 +194,8 @@ const resolvers = {
       meme.imageUrl = imageUrl || meme.imageUrl;
       await meme.save();
       return meme;
-    },
+    }, // updateMeme
+
     //add mutation for deleting a meme
     // finding the meme by id
     // checking if the meme exists
@@ -118,8 +214,8 @@ const resolvers = {
       }
       await meme.deleteOne();
       return true;
-    },
-  },
-};
+    }, // deleteMeme
+  }, // Mutation
+}; // resolvers
 
 module.exports = resolvers;

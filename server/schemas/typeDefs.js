@@ -11,6 +11,54 @@ const typeDefs = gql`
     favorites: [Favorite!]!
   }
 
+  type Meme {
+    _id: ID
+    title: String
+    imageUrl: String
+    creator: User
+    ratings: [Int]
+    comments: [Comment]
+    favorites: [Favorite]
+
+  }
+
+  type Comment {
+    _id: ID
+    commentText: String
+    commentAuthor: String
+    createdAt: String
+  }
+
+  type Favorite {
+    _id: ID
+    meme: Meme
+    user: User
+  }
+
+  type Meme {
+    _id: ID
+    title: String
+    imageUrl: String
+    creator: User
+    ratings: [Int]
+    comments: [Comment]
+    favorites: [Favorite]
+
+  }
+
+  type Comment {
+    _id: ID
+    commentText: String
+    commentAuthor: String
+    createdAt: String
+  }
+
+  type Favorite {
+    _id: ID
+    meme: Meme
+    user: User
+  }
+
   type Auth {
     token: ID!
     user: User
@@ -50,6 +98,10 @@ const typeDefs = gql`
     meme(id: ID!): Meme
     memes: [Meme!]!
     userMemes: [Meme!]!
+    memes: [Meme!]
+    meme(_id: ID!): Meme
+    getComment(memeId: ID!, commentId: ID!): Comment
+    getCommentsByMemeId(memeId: ID!): [Comment]
   }
 
   type Mutation {
@@ -58,6 +110,10 @@ const typeDefs = gql`
     createMeme(title: String!, imageUrl: String!): Meme!
     updateMeme(id: ID!, title: String!, imageUrl: String!): Meme!
     deleteMeme(id: ID!): Meme!
+    addComment(memeId: ID!, commentText: String!): Meme
+    updateComment(memeId: ID!, commentId: ID!, commentText: String!): Meme
+    removeComment(memeId: ID!, commentId: ID!): Meme
+
   }
 `;
 

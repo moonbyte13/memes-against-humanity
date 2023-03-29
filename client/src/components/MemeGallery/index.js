@@ -1,16 +1,15 @@
 import { useState, useEffect } from 'react';
+import { createGiphyFetch } from '../../utils/giphyApi';
+
+const giphyFetch = createGiphyFetch();
 
 function GiphyGallery() {
   const [gifs, setGifs] = useState([]);
 
   useEffect(() => {
     async function fetchGifs() {
-      const response = await fetch(
-        // 'https://api.giphy.com/v1/gifs/search?q=memes&api_key=SizPu7Wh56wn3UdCbKPje0GsFgd8wAGf&limit=20'
-        // 'https://api.giphy.com/v1/gifs/search?q=memes&api_key=YOUR_APIKEY&limit=20
-      );
-      const json = await response.json();
-      setGifs(json.data);
+      const { data } = await giphyFetch.search('memes', { limit: 20 });
+      setGifs(data);
     }
     fetchGifs();
   }, []);
@@ -24,6 +23,7 @@ function GiphyGallery() {
             key={gif.id}
             src={gif.images.downsized_medium.url}
             alt={gif.title}
+            width='50%'
           />
         ))}
       </div>
