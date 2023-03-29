@@ -15,5 +15,12 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^5.1.0"
+  },
+  "dependencies": {
+    "@giphy/js-fetch-api": "^4.8.1",
+    "giphy": "^0.0.4",
+    "giphy-api": "^2.0.2",
+    "install": "^0.13.0",
+    "npm": "^9.6.2"
   }
 }
