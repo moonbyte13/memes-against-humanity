@@ -15,9 +15,9 @@ function Header() {
   }
 
   return (
-    <header className='flex flex-row justify-between p-4'>
+    <header className='flex flex-col md:flex-row items-center md:justify-between p-4'>
       <h1 
-        className='w-fit text-3xl md:text-4xl lg:text-5xl hover:cursor-pointer'
+        className='w-fit text-3xl md:text-4xl lg:text-5xl hover:cursor-pointer md:pb-0 pb-3'
         onClick={redirect}
       >
         Memes Against Humanity
