@@ -8,9 +8,18 @@ function Header() {
     event.preventDefault();
     Auth.logout();
   };
+
+  function redirect(event) {
+    event.preventDefault();
+    window.location.href = '/';
+  }
+
   return (
-    <header className='flex flex-row justify-between'>
-      <h1 className='!w-fit'>
+    <header className='flex flex-row justify-between p-4'>
+      <h1 
+        className='w-fit text-3xl md:text-4xl lg:text-5xl hover:cursor-pointer'
+        onClick={redirect}
+      >
         Memes Against Humanity
       </h1>
       <nav className='w-fit'>
@@ -22,7 +31,10 @@ function Header() {
               </>
             ) : (
               <>
-                <Link to="/login">
+                <Link
+                  to="/login"
+                  className='mr-2'
+                >
                   Login
                 </Link>
                 <Link to="/signup">
