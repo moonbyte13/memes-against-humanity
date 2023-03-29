@@ -15,8 +15,7 @@ function GiphyGallery() {
   }, []);
 
   return (
-    <div className='p-4'>
-      <h2>Popular Memes</h2>
+    <div>
       <div className="gallery grid grid-cols-2 gap-4">
         {gifs.map((gif) => (
           <img
