@@ -37,20 +37,21 @@ function Login() {
     });
   };
   return (
-    <div>
+    <div className='grid justify-center p-4'>
       {data ? (
               <p>
                 Success! You may now head{' '}
                 <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
-              <form onSubmit={handleFormSubmit}>
+              <form onSubmit={handleFormSubmit} className='flex flex-col w-fit border rounded-lg border-black'>
                 <input
                   placeholder="Your email"
                   name="email"
                   type="email"
                   value={formState.email}
                   onChange={handleChange}
+                  className='p-1 rounded-t-lg border-b border-black bg-transparent placeholder:text-gray-800'
                 />
                 <input
                   placeholder="******"
@@ -58,9 +59,10 @@ function Login() {
                   type="password"
                   value={formState.password}
                   onChange={handleChange}
+                  className='p-1 bg-transparent border-b border-black placeholder:text-gray-800'
                 />
                 <button
-                  className="btn btn-block btn-primary"
+                  className="btn btn-block btn-primary p-1"
                   style={{ cursor: 'pointer' }}
                   type="submit"
                 >
