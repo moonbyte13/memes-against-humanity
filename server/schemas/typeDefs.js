@@ -16,34 +16,9 @@ const typeDefs = gql`
     title: String
     imageUrl: String
     creator: User
-    ratings: [Int]
+    ratings: Int
     comments: [Comment]
     favorites: [Favorite]
-
-  }
-
-  type Comment {
-    _id: ID
-    commentText: String
-    commentAuthor: String
-    createdAt: String
-  }
-
-  type Favorite {
-    _id: ID
-    meme: Meme
-    user: User
-  }
-
-  type Meme {
-    _id: ID
-    title: String
-    imageUrl: String
-    creator: User
-    ratings: [Int]
-    comments: [Comment]
-    favorites: [Favorite]
-
   }
 
   type Comment {
@@ -63,29 +38,6 @@ const typeDefs = gql`
     token: ID!
     user: User
   }
-  type Meme {
-    id: ID!
-    title: String!
-    imageUrl: String!
-    creator: User! # 
-    ratings: [Rating!]!
-    comments: [Comment!]!
-    favorites: [Favorite!]!
-  }
-
-  type Comment {
-    id: ID!
-    content: String!
-    author: User!
-    meme: Meme!
-    likes: Int!
-  }
-
-  type Favorite {
-    id: ID!
-    user: User!
-    meme: Meme!
-  }
 
   type Rating {
     id: ID!
@@ -98,8 +50,6 @@ const typeDefs = gql`
     meme(id: ID!): Meme
     memes: [Meme!]!
     userMemes: [Meme!]!
-    memes: [Meme!]
-    meme(_id: ID!): Meme
     getComment(memeId: ID!, commentId: ID!): Comment
     getCommentsByMemeId(memeId: ID!): [Comment]
   }
@@ -113,7 +63,6 @@ const typeDefs = gql`
     addComment(memeId: ID!, commentText: String!): Meme
     updateComment(memeId: ID!, commentId: ID!, commentText: String!): Meme
     removeComment(memeId: ID!, commentId: ID!): Meme
-
   }
 `;
 
