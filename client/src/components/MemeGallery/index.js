@@ -23,6 +23,7 @@ function GiphyGallery() {
             key={gif.id}
             src={gif.images.downsized_medium.url}
             alt={gif.title}
+            width='50%'
           />
         ))}
       </div>

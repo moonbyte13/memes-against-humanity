@@ -1,9 +1,12 @@
-import React from 'react';
+import MemeGallery from '../components/MemeGallery';
 
 function Home() {
+
   return (
-    <div>Home</div>
-  )
+    <div>
+      <MemeGallery />
+    </div>
+  );
 }
 
 export default Home;
