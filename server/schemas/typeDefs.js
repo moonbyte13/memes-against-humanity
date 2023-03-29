@@ -41,6 +41,8 @@ const typeDefs = gql`
     me: User
     memes: [Meme!]
     meme(_id: ID!): Meme
+    getComment(memeId: ID!, commentId: ID!): Comment
+    getCommentsByMemeId(memeId: ID!): [Comment]
   }
   
   type Mutation {
