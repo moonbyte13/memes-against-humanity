@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { GiphyFetch } from '@giphy/js-fetch-api';
+import { createGiphyFetch } from '../../utils/giphyApi';
 
-const giphyFetch = new GiphyFetch('Fqp8BHSCeCKSLJrWd6U6GCrNVemmVM08');
+const giphyFetch = createGiphyFetch();
 
 function GiphyGallery() {
   const [gifs, setGifs] = useState([]);
