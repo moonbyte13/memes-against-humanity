@@ -21,7 +21,7 @@ function getNextApiKey() {
 function createGiphyFetch() {
   const apiKey = getNextApiKey();
   apiCallsCounter++;
-  if (apiCallsCounter >= 1000) {
+  if (apiCallsCounter >= 42) {
     console.warn(`Giphy API call limit reached for key ${apiKey}, switching to next key...`);
     apiCallsCounter = 0;
     apiKeyIndex = (apiKeyIndex + 1) % API_KEYS.length;
