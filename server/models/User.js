@@ -24,12 +24,6 @@ const userSchema = new Schema(
         ref: 'Meme',
       },
     ],
-    comments: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Comment',
-      },
-    ],
     favorites: [
       {
         type: Schema.Types.ObjectId,
