@@ -9,27 +9,27 @@ const typeDefs = gql`
   }
 
   type Meme {
-    _id: ID!
-    title: String!
-    imageUrl: String!
-    creator: User!
-    ratings: [Int!]
-    comments: [Comment!]
-    favorites: [Favorite!]
+    _id: ID
+    title: String
+    imageUrl: String
+    creator: User
+    ratings: [Int]
+    comments: [Comment]
+    favorites: [Favorite]
 
   }
 
   type Comment {
-    _id: ID!
-    commentText: String!
-    commentAuthor: String!
-    createdAt: String!
+    _id: ID
+    commentText: String
+    commentAuthor: String
+    createdAt: String
   }
 
   type Favorite {
-    _id: ID!
-    meme: Meme!
-    user: User!
+    _id: ID
+    meme: Meme
+    user: User
   }
 
   type Auth {
@@ -39,11 +39,17 @@ const typeDefs = gql`
 
   type Query {
     me: User
+    memes: [Meme!]
+    meme(_id: ID!): Meme
   }
   
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
+    addComment(memeId: ID!, commentText: String!): Meme
+    updateComment(memeId: ID!, commentId: ID!, commentText: String!): Meme
+    removeComment(memeId: ID!, commentId: ID!): Meme
+
   }
 `;
 
