@@ -7,7 +7,8 @@ function GiphyGallery() {
     async function fetchGifs() {
       const response = await fetch(
         // 'https://api.giphy.com/v1/gifs/search?q=memes&api_key=SizPu7Wh56wn3UdCbKPje0GsFgd8wAGf&limit=20'
-        // 'https://api.giphy.com/v1/gifs/search?q=memes&api_key=YOUR_APIKEY&limit=20
+        // 'https://api.giphy.com/v1/gifs/search?q=memes&api_key=pzUFsEoTKHdnu0i33kOqTa9jbMCLc3rg&limit=20'
+        // 'https://api.giphy.com/v1/gifs/search?q=memes&api_key=YOUR_APIKEY&limit=20'
       );
       const json = await response.json();
       setGifs(json.data);
