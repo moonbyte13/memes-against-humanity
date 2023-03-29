@@ -63,7 +63,6 @@ function App() {
           </Routes>
         </>
       </Router>
-      <script src="https://cdn.tailwindcss.com"></script>
     </ApolloProvider>
   )
 }
