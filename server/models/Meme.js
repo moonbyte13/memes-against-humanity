@@ -1,5 +1,5 @@
-const { Schema, model } = require('mongoose');
-const dateFormat = require('../utils/dateFormat');
+const { Schema, model } = require("mongoose");
+const dateFormat = require("../utils/dateFormat");
 
 const memeSchema = new Schema(
   {
@@ -15,15 +15,21 @@ const memeSchema = new Schema(
       trim: true
     },
     creator: {
-      type: String,
+      type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
       trim: true
     },
-    ratings: [
+    likes: [
       {
         type: Number,
-        min: 1,
-        max: 5,
+        default: 0,
+      },
+    ],
+    likedBy: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "User",
       },
     ],
     comments: [
@@ -48,7 +54,7 @@ const memeSchema = new Schema(
     favorites: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Favorite',
+        ref: "Favorite",
       },
     ],
   },
@@ -59,6 +65,6 @@ const memeSchema = new Schema(
   }
 ); // meme schema
 
-const Meme = model('Meme', memeSchema);
+const Meme = model("Meme", memeSchema);
 
 module.exports = Meme;
