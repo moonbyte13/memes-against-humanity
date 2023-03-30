@@ -275,6 +275,59 @@ const resolvers = {
     }, // removeLike
 
     //add mutation for adding a favorite to a meme
+    // finding the meme by id
+    // checking if the meme exists
+    // checking if the user has already favorited the meme
+    // add the user._id to the meme.favorites array and save the meme to the db
+    addFavourite: async (parent, { memeId }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          "You must be logged in to add a favourite."
+        );
+      }
+
+      const meme = await Meme.findById(memeId);
+      if (!meme) {
+        throw new UserInputError("Could not find meme with given id.");
+      }
+
+      // Check if the meme is already favourited by the user
+      if (meme.favorites.includes(user.id)) {
+        throw new UserInputError("Meme is already favourited by the user.");
+      }
+
+      // Add the user's id to the meme's favorites array
+      meme.favorites.push(user.id);
+      await meme.save();
+
+      return meme;
+    }, // addFavourite
+
+    removeFavourite: async (parent, { memeId }, { user }) => {
+      if (!user) {
+        throw new AuthenticationError(
+          "You must be logged in to remove a favourite."
+        );
+      }
+
+      const meme = await Meme.findById(memeId);
+      if (!meme) {
+        throw new UserInputError("Could not find meme with given id.");
+      }
+
+      // Check if the meme is already favourited by the user
+      if (!meme.favorites.includes(user.id)) {
+        throw new UserInputError("Meme is not favourited by the user.");
+      }
+
+      // Remove the user's id from the meme's favorites array
+      meme.favorites = meme.favorites.filter(
+        (favorite) => favorite.toString() !== user.id
+      );
+      await meme.save();
+
+      return meme;
+    }, // removeFavourite
   }, // Mutation
 }; // resolvers
 

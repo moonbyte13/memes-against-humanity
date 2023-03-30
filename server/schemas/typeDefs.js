@@ -68,9 +68,8 @@ const typeDefs = gql`
     removeComment(memeId: ID!, commentId: ID!): Meme
     addLike(memeId: ID!): Meme
     removeLike(memeId: ID!): Meme
-    addFavorite(memeId: ID!): Meme
-    removeFavorite(memeId: ID!): Meme
-
+    addFavourite(memeId: ID!): Meme
+    removeFavourite(memeId: ID!): Meme
   }
 `;
 
