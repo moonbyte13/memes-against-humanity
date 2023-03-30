@@ -44,7 +44,10 @@ function Login() {
                 <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
-              <form onSubmit={handleFormSubmit} className='flex flex-col w-fit border rounded-lg border-black'>
+              <form 
+                onSubmit={handleFormSubmit} 
+                className='flex flex-col border rounded-lg border-black w-96'
+              >
                 <input
                   placeholder="Your email"
                   name="email"
@@ -52,6 +55,7 @@ function Login() {
                   value={formState.email}
                   onChange={handleChange}
                   className='p-1 rounded-t-lg border-b border-black bg-transparent placeholder:text-gray-800'
+                  autocomplete='off'
                 />
                 <input
                   placeholder="******"
@@ -60,6 +64,7 @@ function Login() {
                   value={formState.password}
                   onChange={handleChange}
                   className='p-1 bg-transparent border-b border-black placeholder:text-gray-800'
+                  autocomplete='off'
                 />
                 <button
                   className="btn btn-block btn-primary p-1"
@@ -72,7 +77,7 @@ function Login() {
             )}
 
             {error && (
-              <div>
+              <div className='p-2 flex justify-center'>
                 {error.message}
               </div>
             )}
