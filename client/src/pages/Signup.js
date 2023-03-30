@@ -39,14 +39,18 @@ function Signup() {
   };
 
   return (
-    <div className='flex justify-center p-4'>
+    <div className='flex flex-col justify-center p-4'>
+      <h2 className='text-center font-semibold p-2'>Sign Up</h2>
       {data ? (
               <p>
                 Success! You may now head{' '}
                 <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
-              <form onSubmit={handleFormSubmit} className='flex flex-col border rounded-lg border-black w-4/5 md:w-3/5'>
+              <form 
+                onSubmit={handleFormSubmit} 
+                className='flex flex-col self-center border rounded-lg border-black w-4/5 md:w-3/5'
+              >
                 <input
                   placeholder="Your username"
                   name="username"

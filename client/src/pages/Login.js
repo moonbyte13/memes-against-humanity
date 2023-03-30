@@ -37,7 +37,8 @@ function Login() {
     });
   };
   return (
-    <div className='flex justify-center p-4'>
+    <div className='flex flex-col justify-center p-4'>
+      <h2 className='text-center font-semibold p-2'>Login</h2>
       {data ? (
               <p>
                 Success! You may now head{' '}
@@ -46,7 +47,7 @@ function Login() {
             ) : (
               <form 
                 onSubmit={handleFormSubmit} 
-                className='flex flex-col border rounded-lg border-black w-4/5 md:w-3/5'
+                className='flex flex-col self-center border rounded-lg border-black w-4/5 md:w-3/5'
               >
                 <input
                   placeholder="Your email"
