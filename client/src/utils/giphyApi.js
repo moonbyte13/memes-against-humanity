@@ -15,6 +15,9 @@ let apiCallsCounter = 0;
 
 function getNextApiKey() {
   apiKeyIndex = (apiKeyIndex + 1) % API_KEYS.length;
+  if (apiKeyIndex === 0) {
+    console.warn(`Giphy API key index reset to 0...`);
+  }
   return API_KEYS[apiKeyIndex];
 }
 

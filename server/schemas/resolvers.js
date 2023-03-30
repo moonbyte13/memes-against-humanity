@@ -4,9 +4,19 @@ const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
+    // get all users
+    users: async () => {
+      return User.find().populate("memes");
+    },
+
+    // get a single user by username
+    user: async (parent, { username }) => {
+      return User.findOne({ username }).populate("memes");
+    },
+
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id }).populate("memes");
       }
       throw new AuthenticationError("You need to be logged in!");
     },
@@ -47,8 +57,6 @@ const resolvers = {
       return memes;
     }, // userMemes
 
-    // me
-
     // get a single comment by memeid and commentid
     getComment: async (parent, { memeId, commentId }, context) => {
       if (context.user) {
@@ -77,8 +85,8 @@ const resolvers = {
   }, // Query
 
   Mutation: {
-    addUser: async (parent, args) => {
-      const user = await User.create(args);
+    addUser: async (parent, { username, email, password }) => {
+      const user = await User.create({ username, email, password });
       const token = signToken(user);
 
       return { token, user };

@@ -47,12 +47,14 @@ const typeDefs = gql`
   }
 
   type Query {
-    me: User # returns the current user
-    meme(id: ID!): Meme # returns a single meme by id
-    memes: [Meme!]! # returns all memes
-    userMemes: [Meme!]! # returns all memes created by the current user
-    getComment(memeId: ID!, commentId: ID!): Comment # returns a single comment by memeId and commentId
-    getCommentsByMemeId(memeId: ID!): [Comment] # returns all comments by memeId
+    user(username: String!): User
+    users: [User]!
+    me: User
+    meme(id: ID!): Meme
+    memes: [Meme!]!
+    userMemes: [Meme!]!
+    getComment(memeId: ID!, commentId: ID!): Comment
+    getCommentsByMemeId(memeId: ID!): [Comment]
   }
 
   type Mutation {

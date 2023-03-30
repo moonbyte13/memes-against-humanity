@@ -8,21 +8,21 @@ function GiphyGallery() {
 
   useEffect(() => {
     async function fetchGifs() {
-      const { data } = await giphyFetch.search('memes', { limit: 20 });
+      const { data } = await giphyFetch.gifs('memes', 'fail');
       setGifs(data);
     }
     fetchGifs();
   }, []);
 
   return (
-    <div className='p-4'>
-      <h2>Popular Memes</h2>
+    <div>
       <div className="gallery grid grid-cols-2 gap-4">
         {gifs.map((gif) => (
           <img
             key={gif.id}
             src={gif.images.downsized_medium.url}
             alt={gif.title}
+            className='w-full object-cover self-center'
           />
         ))}
       </div>
