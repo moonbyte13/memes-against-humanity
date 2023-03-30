@@ -6,6 +6,7 @@ import { CREATE_MEME } from '../../utils/mutations';
 const giphyFetch = createGiphyFetch();
 
 function CreateMeme() {
+
   const [gifs, setGifs] = useState([]);
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [formState, setFormState] = useState({
@@ -14,7 +15,6 @@ function CreateMeme() {
     text: '',
   });
   const [addMeme, { error }] = useMutation(CREATE_MEME);
-  const [isMemeSelected, setIsMemeSelected] = useState(false);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
@@ -26,7 +26,7 @@ function CreateMeme() {
     } catch (e) {
       console.error(e);
     }
-  };
+  }
 
   const handleInputChange = (event) => {
     const { name, value } = event.target;
@@ -37,11 +37,7 @@ function CreateMeme() {
   };
 
   const handleSearch = async (event) => {
-    const { data } = await giphyFetch.search(
-      event.target.value, 
-      { limit: 10 }
-    );
-    
+    const { data } = await giphyFetch.search(event.target.value, { limit: 25 });
     setGifs(data);
   };
 
@@ -50,15 +46,6 @@ function CreateMeme() {
     setFormState({
       ...formState,
       imageUrl: imageUrl,
-    });
-    setIsMemeSelected(true);
-  };
-
-  const handleGoBack = () => {
-    setIsMemeSelected(false);
-    setFormState({
-      ...formState,
-      imageUrl: '',
     });
   };
 
@@ -87,76 +74,34 @@ function CreateMeme() {
     return 'auto';
   };
 
-  const gifContainerStyle = {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: '0 -10px'
-  };
-
-  const gifStyle = {
-    padding: '10px',
-    width: getGifWidth(),
-    height: getGifHeight(),
-    cursor: 'zoom-in',
-  };
-
-  const zoomedImageStyle = {
-    position: 'fixed',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    zIndex: 999999,
-    maxHeight: '90vh',
-    height: 'auto',
-    width: 'auto',
-    cursor: 'zoom-out',
-  };
-
   return (
     <div className="flex justify-center items-center flex-col space-y-4">
-      {!isMemeSelected ? (
-        <>
-          <h2>Search for a gif</h2>
-          <input
-            name='gifSearch'
-            type='text'
-            placeholder='Search for a gif'
-            onChange={handleSearch}
-            className="border border-gray-300 px-2 py-1 rounded-md"
-          />
-          {gifs.length > 0 && (
-            <div style={gifContainerStyle}>
-              {gifs.map((gif) => (
-                <div
-                  style={gifStyle}
-                  key={gif.id}
-                  onClick={() => handleGifClick(gif.images.original.url)}
-                >
-                  <img
-                    src={gif.images.fixed_height.url}
-                    alt={gif.title}
-                  />
-                </div>
-              ))}
+      <h2>Search for a gif</h2>
+      <input
+        name='gifSearch'
+        type='text'
+        placeholder='Search for a gif'
+        onChange={handleSearch}
+        className="border border-gray-300 px-2 py-1 rounded-md"
+      >
+      </input>
+      {gifs.length > 0 && (
+        <div className="gifs-container flex justify-center items-center flex-wrap">
+          {gifs.map((gif) => (
+            <div
+              className="gif p-2"
+              key={gif.id}
+              onClick={() => handleGifClick(gif.images.fixed_height.url)}
+            >
+              <img
+                src={gif.images.fixed_height.url}
+                alt={gif.title}
+                width={getGifWidth()}
+                height={getGifHeight()}
+              />
             </div>
-          )}
-        </>
-      ) : (
-        <>
-          <div
-            style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}
-          >
-            <img
-              src={formState.imageUrl}
-              alt="Selected Meme"
-              style={zoomedImageStyle}
-              onClick={handleGoBack}
-            />
-          </div>
-          <button onClick={() => setIsMemeSelected(false)}>Show Search Bar</button>
-        </>
+          ))}
+        </div>
       )}
       <form onSubmit={handleFormSubmit} className="flex flex-col space-y-4">
         <input

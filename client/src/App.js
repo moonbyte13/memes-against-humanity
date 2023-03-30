@@ -11,7 +11,8 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Header from './components/Header';
-import MemesPage from './pages/memes';
+import MemesPage from './pages/Memes';
+import CreatePage from './pages/Create';
 
 const httpLink = createHttpLink({
   uri: '/graphql',
@@ -59,6 +60,10 @@ function App() {
             <Route
               path="/memes"
               element={<MemesPage />}
+            />
+            <Route
+              path="/create"
+              element={<CreatePage />}
             />
           </Routes>
         </>
