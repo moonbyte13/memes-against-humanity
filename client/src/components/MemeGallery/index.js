@@ -8,7 +8,7 @@ function GiphyGallery() {
 
   useEffect(() => {
     async function fetchGifs() {
-      const { data } = await giphyFetch.search('memes', { limit: 20 });
+      const { data } = await giphyFetch.gifs('memes', 'steal yo girl');
       setGifs(data);
     }
     fetchGifs();
@@ -22,7 +22,7 @@ function GiphyGallery() {
             key={gif.id}
             src={gif.images.downsized_medium.url}
             alt={gif.title}
-            className='w-full h-full object-cover'
+            className='w-full object-cover self-center'
           />
         ))}
       </div>
