@@ -37,7 +37,7 @@ function Login() {
     });
   };
   return (
-    <div className='grid justify-center p-4'>
+    <div className='flex justify-center p-4'>
       {data ? (
               <p>
                 Success! You may now head{' '}
@@ -46,7 +46,7 @@ function Login() {
             ) : (
               <form 
                 onSubmit={handleFormSubmit} 
-                className='flex flex-col border rounded-lg border-black w-96'
+                className='flex flex-col border rounded-lg border-black w-4/5 md:w-3/5'
               >
                 <input
                   placeholder="Your email"
@@ -55,7 +55,7 @@ function Login() {
                   value={formState.email}
                   onChange={handleChange}
                   className='p-1 rounded-t-lg border-b border-black bg-transparent placeholder:text-gray-800'
-                  autocomplete='off'
+                  autoComplete='off'
                 />
                 <input
                   placeholder="******"
@@ -64,11 +64,10 @@ function Login() {
                   value={formState.password}
                   onChange={handleChange}
                   className='p-1 bg-transparent border-b border-black placeholder:text-gray-800'
-                  autocomplete='off'
+                  autoComplete='off'
                 />
                 <button
-                  className="btn btn-block btn-primary p-1"
-                  style={{ cursor: 'pointer' }}
+                  className="btn btn-block btn-primary hover:cursor-pointer"
                   type="submit"
                 >
                   Login

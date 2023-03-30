@@ -39,14 +39,14 @@ function Signup() {
   };
 
   return (
-    <div className='grid justify-center p-4'>
+    <div className='flex justify-center p-4'>
       {data ? (
               <p>
                 Success! You may now head{' '}
                 <Link to="/">back to the homepage.</Link>
               </p>
             ) : (
-              <form onSubmit={handleFormSubmit} className='flex flex-col border rounded-lg border-black w-96'>
+              <form onSubmit={handleFormSubmit} className='flex flex-col border rounded-lg border-black w-4/5 md:w-3/5'>
                 <input
                   placeholder="Your username"
                   name="username"
@@ -54,7 +54,7 @@ function Signup() {
                   value={formState.name}
                   onChange={handleChange}
                   className='p-1 rounded-t-lg border-b border-black bg-transparent placeholder:text-gray-800'
-                  autocomplete='off'
+                  autoComplete='off'
                 />
                 <input
                   placeholder="Your email"
@@ -63,7 +63,7 @@ function Signup() {
                   value={formState.email}
                   onChange={handleChange}
                   className='p-1 bg-transparent border-b border-black placeholder:text-gray-800'
-                  autocomplete='off'
+                  autoComplete='off'
                 />
                 <input
                   placeholder="******"
@@ -72,11 +72,10 @@ function Signup() {
                   value={formState.password}
                   onChange={handleChange}
                   className='p-1 bg-transparent border-b border-black placeholder:text-gray-800'
-                  autocomplete='off'
+                  autoComplete='off'
                 />
                 <button
-                  className="btn btn-block btn-primary"
-                  style={{ cursor: 'pointer' }}
+                  className="btn btn-block btn-primary hover:cursor-pointer"
                   type="submit"
                 >
                   Sign up
