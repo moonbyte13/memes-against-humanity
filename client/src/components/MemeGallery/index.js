@@ -8,7 +8,7 @@ function GiphyGallery() {
 
   useEffect(() => {
     async function fetchGifs() {
-      const { data } = await giphyFetch.gifs('memes', 'steal yo girl');
+      const { data } = await giphyFetch.gifs('memes', 'fail');
       setGifs(data);
     }
     fetchGifs();
