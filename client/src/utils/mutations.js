@@ -49,9 +49,23 @@ export const ADD_MEME = gql`
         _id
         username
       }
+      likes
+      likedBy {
+        _id
+        username
+      }
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+          username
+        }
+        createdAt
+      }
     }
   }
-`;
+`; 
 
 // creating a mutation for liking a meme
 export const ADD_LIKE = gql`
