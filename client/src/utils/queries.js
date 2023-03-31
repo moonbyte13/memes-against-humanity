@@ -1,4 +1,4 @@
-import { gql } from '@apollo/client';
+import { gql } from "@apollo/client";
 
 export const QUERY_MEMES = gql`
   query {
@@ -10,7 +10,11 @@ export const QUERY_MEMES = gql`
         _id
         username
       }
-      ratings
+      likes
+      likedBy {
+        _id
+        username
+      }
       comments {
         _id
         commentText
@@ -23,7 +27,6 @@ export const QUERY_MEMES = gql`
     }
   }
 `;
-
 
 export const GET_ME = gql`
   query {
@@ -39,7 +42,11 @@ export const GET_ME = gql`
           _id
           username
         }
-        ratings
+        likes
+        likedBy {
+          _id
+          username
+        }
         comments {
           _id
           commentText
@@ -75,7 +82,11 @@ export const QUERY_USER = gql`
           _id
           username
         }
-        ratings
+        likes
+        likedBy {
+          _id
+          username
+        }
         comments {
           _id
           commentText
@@ -92,6 +103,35 @@ export const QUERY_USER = gql`
           _id
           title
         }
+      }
+    }
+  }
+`;
+
+// query for single meme
+export const QUERY_MEME = gql`
+  query meme($id: ID!) {
+    meme(_id: $id) {
+      _id
+      title
+      imageUrl
+      creator {
+        _id
+        username
+      }
+      likes
+      likedBy {
+        _id
+        username
+      }
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+          username
+        }
+        createdAt
       }
     }
   }
