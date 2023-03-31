@@ -1,5 +1,30 @@
 import { gql } from '@apollo/client';
 
+export const QUERY_MEMES = gql`
+  query {
+    memes {
+      _id
+      title
+      imageUrl
+      creator {
+        _id
+        username
+      }
+      ratings
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+          username
+        }
+        createdAt
+      }
+    }
+  }
+`;
+
+
 export const GET_ME = gql`
   query {
     me {

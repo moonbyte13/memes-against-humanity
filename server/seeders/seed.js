@@ -5,22 +5,21 @@ const { User } = require('../models');
 const userData = require('./userSeeds.json');
 // const memeData = require('./memeSeeds.json');
 
-// User seeds
-db.once('open', async () => {
-  await User.deleteMany({});
+db.once('open', async function() {
+  try {
+    await User.deleteMany({});
+    console.log('Users collection cleared');
+    const users = await User.insertMany(userData);
+    console.log('Users seeded:', users.length);
 
-  const users = await User.insertMany(userData);
+    // await Meme.deleteMany({});
+    // console.log('Memes collection cleared');
+    // const memes = await Meme.insertMany(memeData);
+    // console.log('Memes seeded:', memes.length);
 
-  console.log('Users seeded!');
-  process.exit(0);
+    process.exit(0);
+  } catch (err) {
+    console.log('Error seeding database:', err);
+    process.exit(1);
+  }
 });
-
-// Meme seeds
-// db.once('open', async () => {
-//   await Meme.deleteMany({});
-
-//   const users = await Meme.insertMany(memeData);
-
-//   console.log('Memes seeded!');
-//   process.exit(0);
-// });

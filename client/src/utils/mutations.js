@@ -41,3 +41,27 @@ export const ADD_COMMENT = gql`
     }
   }
 `;
+
+export const CREATE_MEME = gql`
+  mutation createMeme($title: String!, $imageUrl: String!) {
+    createMeme(title: $title, imageUrl: $imageUrl) {
+      _id
+      title
+      imageUrl
+      creator {
+        _id
+        username
+      }
+      ratings
+      comments {
+        _id
+        commentText
+        commentAuthor {
+          _id
+          username
+        }
+        createdAt
+      }
+    }
+  }
+`;
