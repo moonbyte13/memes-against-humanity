@@ -13,6 +13,7 @@ export const GET_ME = gql`
         creator {
           _id
           username
+          email
         }
         ratings
         comments {
@@ -49,6 +50,7 @@ export const QUERY_USER = gql`
         creator {
           _id
           username
+          email
         }
         ratings
         comments {
