@@ -2,6 +2,8 @@ import { createGiphyFetch } from '../../utils/giphyApi';
 import { useState, useEffect } from 'react';
 import { useMutation } from '@apollo/client';
 import { CREATE_MEME } from '../../utils/mutations';
+import canvasGif from 'canvas-gif'
+import path from 'path'
 
 const giphyFetch = createGiphyFetch();
 
@@ -15,6 +17,27 @@ function CreateMeme() {
     text: '',
   });
   const [addMeme, { error }] = useMutation(CREATE_MEME);
+
+  const gifBack = (context, width, height, totalFrames, currentFrame) => {
+    // Edit the frame
+      context.fillStyle = "#FFA500";
+      context.font = '30px "Fira Code Retina"';
+      context.fillText("Edited by Eze!", 40, 80);
+    }; 
+    const options = {
+      coalesce: false,
+      delay: 0, 
+      repeat: 0, 
+      algorithm: "neuquant",
+      optimiser: true,
+      fps: 20, 
+      quality: 100, 
+    }
+    
+    canvasGif("https://media1.giphy.com/media/3NtY188QaxDdC/giphy.gif?cid=ecf05e471b97651dc296c3d749312053b4390e2ea688388d&rid=giphy.gif&ct=g", gifBack, options)
+      .catch((error) => {
+        console.log(error);
+      });
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
