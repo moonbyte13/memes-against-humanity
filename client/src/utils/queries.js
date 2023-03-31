@@ -10,7 +10,11 @@ export const QUERY_MEMES = gql`
         _id
         username
       }
-      ratings
+      likes
+      likedBy {
+        _id
+        username
+      }
       comments {
         _id
         commentText
@@ -20,10 +24,16 @@ export const QUERY_MEMES = gql`
         }
         createdAt
       }
+      favorites {
+        _id
+        user {
+          _id
+          username
+        }
+      }
     }
   }
 `;
-
 
 export const GET_ME = gql`
   query {
@@ -40,7 +50,11 @@ export const GET_ME = gql`
           username
           email
         }
-        ratings
+        likes
+        likedBy {
+          _id
+          username
+        }
         comments {
           _id
           commentText
@@ -62,6 +76,7 @@ export const GET_ME = gql`
   }
 `;
 
+
 export const QUERY_USER = gql`
   query user($username: String!) {
     user(username: $username) {
@@ -77,7 +92,11 @@ export const QUERY_USER = gql`
           username
           email
         }
-        ratings
+        likes
+        likedBy {
+          _id
+          username
+        }
         comments {
           _id
           commentText
@@ -86,6 +105,13 @@ export const QUERY_USER = gql`
             username
           }
           createdAt
+        }
+        favorites {
+          _id
+          user {
+            _id
+            username
+          }
         }
       }
       favorites {
@@ -98,3 +124,4 @@ export const QUERY_USER = gql`
     }
   }
 `;
+

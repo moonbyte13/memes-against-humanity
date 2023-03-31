@@ -48,7 +48,7 @@ const typeDefs = gql`
 
   type Query {
     user(username: String!): User
-    users: [User]!
+    users: [User]
     me: User
     meme(id: ID!): Meme
     memes: [Meme!]!
@@ -59,7 +59,7 @@ const typeDefs = gql`
 
   type Mutation {
     login(email: String!, password: String!): Auth # returns an Auth object containing a token and user
-    addUser(username: String!, email: String!, password: String!): User! # returns a User object
+    addUser(username: String!, email: String!, password: String!): Auth # returns a User object
     createMeme(title: String!, imageUrl: String!): Meme! # returns a Meme object
     updateMeme(id: ID!, title: String!, imageUrl: String!): Meme! # returns a Meme object
     deleteMeme(id: ID!): Meme! # returns a Meme object
