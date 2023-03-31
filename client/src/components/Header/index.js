@@ -25,6 +25,9 @@ function Header() {
       <nav className='w-fit'>
         {Auth.loggedIn() ? (
               <>
+                <Link to="/profile" className='mr-2'>
+                  Profile
+                </Link>
                 <button onClick={logout}>
                   Logout
                 </button>
