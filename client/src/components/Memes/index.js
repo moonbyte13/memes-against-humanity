@@ -6,16 +6,23 @@ const giphyFetch = createGiphyFetch();
 
 function GiphyGallery() {
   const [gifs, setGifs] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('fail');
   const { id } = useParams(); // get the ID from the URL params
 
   useEffect(() => {
     async function fetchGifs() {
-      const { data } = await giphyFetch.gifs('memes', selectedSubcategory);
+      let query = '';
+      if (searchTerm) {
+        query = searchTerm;
+      } else {
+        query = selectedSubcategory;
+      }
+      const { data } = await giphyFetch.gifs('memes', query);
       setGifs(data);
     }
     fetchGifs();
-  }, [selectedSubcategory]);
+  }, [selectedSubcategory, searchTerm]);
 
   // filter the GIFs array to find the one with the matching ID
   const selectedGif = gifs.find(gif => gif.id === id);
@@ -41,14 +48,25 @@ function GiphyGallery() {
       <div className="flex justify-between items-center mb-4">
         <div>
           <select
-            className="px-2 py-1 border rounded"
+            className="px-2 py-1 border rounded mr-2"
             value={selectedSubcategory}
             onChange={(e) => setSelectedSubcategory(e.target.value)}
+            disabled={searchTerm ? true : false}
           >
             {subcategories.map((subcategory) => (
               <option key={subcategory} value={subcategory}>{subcategory}</option>
             ))}
           </select>
+          <input
+            type="text"
+            placeholder="Search for GIFs"
+            className="px-2 py-1 border rounded"
+            value={searchTerm}
+            onChange={(e) => {
+              setSearchTerm(e.target.value);
+              setSelectedSubcategory('');
+            }}
+          />
         </div>
         {selectedGif && (
           <div>
