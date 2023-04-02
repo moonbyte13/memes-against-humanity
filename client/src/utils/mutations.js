@@ -59,3 +59,27 @@ export const ADD_LIKE = gql`
     }
   }
 `;
+
+export const SAVE_MEME = gql`
+  mutation saveMeme($memeId: ID!, $imageUrl: String!) {
+    saveMeme(memeId: $memeId, imageUrl: $imageUrl) {
+      _id
+      imageUrl
+    }
+  }
+`;
+
+export const SAVE_MEME_AND_USER = gql`
+  mutation saveMemeAndUser($userId: ID!, $memeId: String!, $imageUrl: String!) {
+    saveMemeAndUser(userId: $userId, memeId: $memeId, imageUrl: $imageUrl) {
+      _id
+      username
+      email
+      memes {
+        _id
+        memeId
+        imageUrl
+      }
+    }
+  }
+`;

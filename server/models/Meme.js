@@ -5,8 +5,8 @@ const memeSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
-      unique: true,
+      required: false,
+      sparse: true,
       trim: true
     },
     imageUrl: {
@@ -17,7 +17,6 @@ const memeSchema = new Schema(
     creator: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      required: true,
       trim: true
     },
     likes: [

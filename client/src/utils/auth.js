@@ -5,6 +5,15 @@ class AuthService {
     return decode(this.getToken());
   }
 
+  getCurrentUserId() {
+    const token = this.getToken();
+    if (token) {
+      const { sub } = decode(token);
+      return sub;
+    }
+    return null;
+  }
+
   loggedIn() {
     const token = this.getToken();
     return token && !this.isTokenExpired(token) ? true : false;

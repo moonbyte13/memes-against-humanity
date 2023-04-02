@@ -26,12 +26,6 @@ function Profile() {
           <li key={meme._id}>{meme.title}</li>
         ))}
       </ul>
-      <p>Favorites:</p>
-      <ul>
-        {me.favorites.map((favorite) => (
-          <li key={favorite._id}>{favorite.meme.title}</li>
-        ))}
-      </ul>
     </div>
   );
 }

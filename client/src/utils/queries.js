@@ -39,11 +39,6 @@ export const GET_ME = gql`
           _id
           username
         }
-        likes
-        likedBy {
-          _id
-          username
-        }
       }
     }
   }
@@ -98,3 +93,31 @@ export const QUERY_MEME = gql`
     }
   }
 `;
+
+export const GET_USERS = gql`
+  query GetUsers {
+    users {
+      _id
+      username
+      email
+      memes {
+        _id
+        title
+        imageUrl
+        creator {
+          _id
+          username
+          email
+        }
+        likes
+        likedBy {
+          _id
+          username
+        }
+      }
+    }
+  }
+`;
+
+
+

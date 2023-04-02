@@ -12,6 +12,7 @@ const typeDefs = gql`
   type Meme {
     _id: ID
     title: String
+    memeId: String!
     imageUrl: String
     creator: User
     likes: Int
@@ -46,6 +47,9 @@ const typeDefs = gql`
     deleteMeme(id: ID!): Meme! # returns a Meme object
     addLike(memeId: ID!): Meme
     removeLike(memeId: ID!): Meme
+    saveMeme(memeId: ID!, imageUrl: String!): Meme!
+    saveMemeAndUser(userId: ID!, memeId: String!, imageUrl: String!): User!
+    saveUserMeme(userId: ID!, memeId: String!): User!
   }
 `;
 

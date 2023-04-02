@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react';
 import { createGiphyFetch } from '../../utils/giphyApi';
 import { Link, useParams } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { SAVE_MEME_AND_USER } from '../../utils/mutations';
+import Auth from '../../utils/auth';
 
 const giphyFetch = createGiphyFetch();
 
@@ -9,7 +12,13 @@ function GiphyGallery() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Fail');
   const { id } = useParams(); // get the ID from the URL params
+  const [saveMemeAndUser] = useMutation(SAVE_MEME_AND_USER);
+  const userId = Auth.getCurrentUserId();
+  console.log('userId', id ); 
 
+  
+  // now you can use the `id` variable in your component
+  console.log('id', id);
   useEffect(() => {
     async function fetchGifs() {
       let query = '';
@@ -25,7 +34,7 @@ function GiphyGallery() {
   }, [selectedSubcategory, searchTerm]);
 
   // filter the GIFs array to find the one with the matching ID
-  const selectedGif = gifs.find(gif => gif.id === id);
+  const selectedGif = gifs.find((gif) => gif.id === id);
 
   // define the list of subcategories for the dropdown
   const subcategories = [
@@ -40,8 +49,28 @@ function GiphyGallery() {
     'Like a boss',
     'Look at all the fucks I give',
     'Sips tea',
-    'Steal yo girl'
+    'Steal yo girl',
   ];
+
+  // define the onClick handler for the "Save" button
+  const handleSave = () => {
+    if (!selectedGif) return;
+
+    saveMemeAndUser({
+      variables: {
+        userId: id,
+        memeId: selectedGif.id.toString(),
+        imageUrl: selectedGif.images.downsized_medium.url,
+      },
+    })
+      .then(() => {
+        window.location.href = '/profile';
+      })
+      .catch((error) => {
+        console.error(error.message);
+      });
+  };
+  
 
   return (
     <div>
@@ -57,7 +86,9 @@ function GiphyGallery() {
             disabled={searchTerm ? true : false}
           >
             {subcategories.map((subcategory) => (
-              <option key={subcategory} value={subcategory}>{subcategory}</option>
+              <option key={subcategory} value={subcategory}>
+                {subcategory}
+              </option>
             ))}
           </select>
           <input
@@ -81,10 +112,21 @@ function GiphyGallery() {
           <img
             src={selectedGif.images.downsized_medium.url}
             alt={selectedGif.title}
-            className='h-3/5 object-contain'
+            className="h-3/5 object-contain"
           />
           <div className="flex justify-center mt-4">
-            <button className="mr-4 px-4 py-2 border rounded">Save</button>
+            {Auth.loggedIn() ? (
+              <button
+                className="mr-4 px-4 py-2 border rounded"
+                onClick={handleSave}
+              >
+                Save
+              </button>
+            ) : (
+              <Link to="/login" className="mr-4 px-4 py-2 border rounded">
+                Log in to save
+              </Link>
+            )}
             <button className="px-4 py-2 border rounded">Like</button>
           </div>
         </div>
@@ -95,7 +137,7 @@ function GiphyGallery() {
               <img
                 src={gif.images.downsized_medium.url}
                 alt={gif.title}
-                className='w-full object-cover self-center'
+                className="w-full object-cover self-center"
               />
             </Link>
           ))}
