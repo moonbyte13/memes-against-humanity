@@ -87,6 +87,43 @@ const resolvers = {
       return meme;
     }, // createMeme
 
+    saveMeme: async (_, { memeId, imageUrl }) => {
+      try {
+        const meme = new Meme({ memeId, imageUrl });
+        const savedMeme = await meme.save();
+        return savedMeme;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error saving meme');
+      }
+    },
+    
+    saveUserMeme: async (_, { userId, memeId }) => {
+      try {
+        const user = await User.findById(userId);
+        user.memes.push(memeId);
+        const updatedUser = await user.save();
+        return updatedUser;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error saving user meme');
+      }
+    },
+    
+    saveMemeAndUser: async (_, { userId, memeId, imageUrl }) => {
+      try {
+        const meme = new Meme({ memeId, imageUrl });
+        const savedMeme = await meme.save();
+        const user = await User.findById(userId);
+        user.memes.push(savedMeme._id);
+        const updatedUser = await user.save().populate('memes');
+        return updatedUser;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error saving meme and user');
+      }
+    },
+    
     //add mutation for updating a meme
     // finding the meme by id
     // checking if the meme exists
