@@ -4,7 +4,6 @@ export const QUERY_MEMES = gql`
   query {
     memes {
       _id
-      title
       imageUrl
       creator {
         _id
@@ -52,7 +51,6 @@ export const QUERY_USER = gql`
       username
       memes {
         _id
-        title
         imageUrl
         creator {
           _id
@@ -79,7 +77,6 @@ export const QUERY_MEME = gql`
   query meme($id: ID!) {
     meme(_id: $id) {
       _id
-      title
       imageUrl
       creator {
         _id
@@ -102,7 +99,6 @@ export const GET_USERS = gql`
       email
       memes {
         _id
-        title
         imageUrl
         creator {
           _id
