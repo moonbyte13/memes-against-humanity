@@ -39,7 +39,7 @@ export const ADD_COMMENT = gql`
 `;
 
 // creating a mutation to add a meme
-export const ADD_MEME = gql`
+export const CREATE_MEME = gql`
   mutation createMeme($title: String!, $imageUrl: String!) {
     createMeme(title: $title, imageUrl: $imageUrl) {
       _id

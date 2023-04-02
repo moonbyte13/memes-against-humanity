@@ -13,6 +13,7 @@ function CreateMeme() {
     imageUrl: '',
     text: '',
   });
+  
   const [addMeme, { error }] = useMutation(CREATE_MEME);
   const [isMemeSelected, setIsMemeSelected] = useState(false);
 
