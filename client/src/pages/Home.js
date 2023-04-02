@@ -1,4 +1,3 @@
-
 function Home() {
 
   function memeRedirect () {
