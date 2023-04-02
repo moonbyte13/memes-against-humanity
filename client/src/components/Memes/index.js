@@ -7,7 +7,7 @@ const giphyFetch = createGiphyFetch();
 function GiphyGallery() {
   const [gifs, setGifs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSubcategory, setSelectedSubcategory] = useState('fail');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('Fail');
   const { id } = useParams(); // get the ID from the URL params
 
   useEffect(() => {
@@ -49,8 +49,11 @@ function GiphyGallery() {
         <div>
           <select
             className="px-2 py-1 border rounded mr-2"
-            value={selectedSubcategory}
-            onChange={(e) => setSelectedSubcategory(e.target.value)}
+            value={searchTerm ? searchTerm : selectedSubcategory}
+            onChange={(e) => {
+              setSelectedSubcategory(e.target.value);
+              setSearchTerm('');
+            }}
             disabled={searchTerm ? true : false}
           >
             {subcategories.map((subcategory) => (
@@ -64,7 +67,6 @@ function GiphyGallery() {
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
-              setSelectedSubcategory('');
             }}
           />
         </div>
