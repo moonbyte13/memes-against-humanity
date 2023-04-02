@@ -1,51 +1,26 @@
 import { createGiphyFetch } from '../../utils/giphyApi';
-import { useState, useEffect } from 'react';
-import { useMutation } from '@apollo/client';
-import { CREATE_MEME } from '../../utils/mutations';
-import canvasGif from 'canvas-gif'
-import path from 'path'
+import { useState } from 'react';
+// import canvasGif from 'canvas-gif'
 
 const giphyFetch = createGiphyFetch();
 
 function CreateMeme() {
 
   const [gifs, setGifs] = useState([]);
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [formState, setFormState] = useState({
     title: '',
     imageUrl: '',
     text: '',
   });
-  const [addMeme, { error }] = useMutation(CREATE_MEME);
-
-  const gifBack = (context, width, height, totalFrames, currentFrame) => {
-    // Edit the frame
-      context.fillStyle = "#FFA500";
-      context.font = '30px "Fira Code Retina"';
-      context.fillText("Edited by Eze!", 40, 80);
-    }; 
-    const options = {
-      coalesce: false,
-      delay: 0, 
-      repeat: 0, 
-      algorithm: "neuquant",
-      optimiser: true,
-      fps: 20, 
-      quality: 100, 
-    }
-    
-    canvasGif("https://media1.giphy.com/media/3NtY188QaxDdC/giphy.gif?cid=ecf05e471b97651dc296c3d749312053b4390e2ea688388d&rid=giphy.gif&ct=g", gifBack, options)
-      .catch((error) => {
-        console.log(error);
-      });
+  // const [addMeme, { error }] = useMutation(CREATE_MEME);
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
     try {
-      const { data } = await addMeme({
-        variables: { ...formState },
-      });
-      console.log(data);
+      // const { data } = await addMeme({
+      //   variables: { ...formState },
+      // });
+      // console.log(data);
     } catch (e) {
       console.error(e);
     }
@@ -72,26 +47,6 @@ function CreateMeme() {
     });
   };
 
-  const handleWindowResize = () => {
-    setWindowWidth(window.innerWidth);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleWindowResize);
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, []);
-
-  const getGifWidth = () => {
-    if (windowWidth >= 768) { // large screens
-      return 300;
-    } else if (windowWidth >= 640) { // medium screens
-      return 250;
-    } else { // small screens
-      return windowWidth * 0.8;
-    }
-  };
 
   const getGifHeight = () => {
     return 'auto';
@@ -119,7 +74,6 @@ function CreateMeme() {
               <img
                 src={gif.images.fixed_height.url}
                 alt={gif.title}
-                width={getGifWidth()}
                 height={getGifHeight()}
               />
             </div>
@@ -151,7 +105,6 @@ function CreateMeme() {
         />
         <button type='submit' className="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded-md">Create Meme</button>
       </form>
-      {error && <div>Something went wrong...</div>}
     </div>
   );
 }

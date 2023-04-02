@@ -1,27 +1,27 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@apollo/client';
-import { QUERY_MEMES } from '../../utils/queries';
+import { createGiphyFetch } from '../../utils/giphyApi';
 
-function Memes() {
-  const [memes, setMemes] = useState([]);
-  const { loading, data } = useQuery(QUERY_MEMES);
+const giphyFetch = createGiphyFetch();
+
+function GiphyGallery() {
+  const [gifs, setGifs] = useState([]);
 
   useEffect(() => {
-    if (data) {
-      setMemes(data.memes);
-    } else if (!loading) {
-      console.error('something went wrong!');
+    async function fetchGifs() {
+      const { data } = await giphyFetch.gifs('memes', 'fail');
+      setGifs(data);
     }
-  }, [data, loading]);
+    fetchGifs();
+  }, []);
 
   return (
     <div>
       <div className="gallery grid grid-cols-2 gap-4">
-        {memes.map((meme) => (
+        {gifs.map((gif) => (
           <img
-            key={meme._id}
-            src={meme.imageUrl}
-            alt={meme.title}
+            key={gif.id}
+            src={gif.images.downsized_medium.url}
+            alt={gif.title}
             className='w-full object-cover self-center'
           />
         ))}
@@ -30,4 +30,4 @@ function Memes() {
   );
 }
 
-export default Memes;
+export default GiphyGallery;

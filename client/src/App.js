@@ -11,7 +11,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Header from './components/Header';
-import MemesPage from './pages/memes';
+import MemesPage from './pages/Memes';
 import CreatePage from './pages/Create';
 import Profile from './pages/Profile';
 
