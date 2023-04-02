@@ -7,8 +7,6 @@ const typeDefs = gql`
     email: String
     password: String
     memes: [Meme!]!
-    comments: [Comment!]!
-    favorites: [Favorite!]!
   }
 
   type Meme {
@@ -18,21 +16,6 @@ const typeDefs = gql`
     creator: User
     likes: Int
     likedBy: [User] # this is an array of users who liked the meme
-    comments: [Comment]
-    favorites: [Favorite]
-  }
-
-  type Comment {
-    _id: ID
-    commentText: String
-    commentAuthor: User
-    createdAt: String
-  }
-
-  type Favorite {
-    _id: ID
-    meme: Meme
-    user: User
   }
 
   type Auth {
@@ -53,8 +36,6 @@ const typeDefs = gql`
     meme(id: ID!): Meme
     memes: [Meme!]!
     userMemes: [Meme!]!
-    getComment(memeId: ID!, commentId: ID!): Comment
-    getCommentsByMemeId(memeId: ID!): [Comment]
   }
 
   type Mutation {
@@ -63,13 +44,8 @@ const typeDefs = gql`
     createMeme(title: String!, imageUrl: String!): Meme! # returns a Meme object
     updateMeme(id: ID!, title: String!, imageUrl: String!): Meme! # returns a Meme object
     deleteMeme(id: ID!): Meme! # returns a Meme object
-    addComment(memeId: ID!, commentText: String!): Meme
-    updateComment(memeId: ID!, commentId: ID!, commentText: String!): Meme
-    removeComment(memeId: ID!, commentId: ID!): Meme
     addLike(memeId: ID!): Meme
     removeLike(memeId: ID!): Meme
-    addFavourite(memeId: ID!): Meme
-    removeFavourite(memeId: ID!): Meme
   }
 `;
 

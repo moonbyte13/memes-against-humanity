@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Meme, Comment, Favorite } = require("../models");
+const { User, Meme } = require("../models");
 const { signToken } = require("../utils/auth");
 
 const resolvers = {
@@ -20,68 +20,34 @@ const resolvers = {
       }
       throw new AuthenticationError("You need to be logged in!");
     },
-    // memes query, returns all memes from db and populates the creator, likes, comments and favorites fields
+    // memes query, returns all memes from db and populates the creator, likes  fields
     memes: async () => {
-      const memes = await Meme.find()
-        .populate("creator")
-        .populate("likes")
-        .populate("comments")
-        .populate("favorites");
+      const memes = await Meme.find().populate("creator").populate("likes");
       return memes;
     },
 
-    // meme query, returns a single meme from db and populates the creator, likes, comments and favorites fields
+    // meme query, returns a single meme from db and populates the creator, likes fields
     meme: async (parent, { id }) => {
       const meme = await Meme.findById(id)
         .populate("creator")
-        .populate("likes")
-        .populate("comments")
-        .populate("favorites");
+        .populate("likes");
       if (!meme) {
         throw new Error("Meme not found");
       }
       return meme;
     },
 
-    // userMemes query, returns all memes created by a user and populates the creator, likes, comments and favorites fields
+    // userMemes query, returns all memes created by a user and populates the creator, likes fields
     userMemes: async (parent, args, { user }) => {
       if (!user) {
         throw new Error("Authentication required");
       }
       const memes = await Meme.find({ creator: user._id })
         .populate("creator")
-        .populate("likes")
-        .populate("comments")
-        .populate("favorites");
+        .populate("likes");
 
       return memes;
     }, // userMemes
-
-    // get a single comment by memeid and commentid
-    getComment: async (parent, { memeId, commentId }, context) => {
-      if (context.user) {
-        const meme = await Meme.findById(memeId);
-        const comment = meme.comments.id(commentId);
-        if (!comment) {
-          throw new Error("Comment not found");
-        }
-
-        return comment;
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    }, // getComment
-
-    // get all comments by a memeid
-    getCommentsByMemeId: async (parent, { memeId }, context) => {
-      if (context.user) {
-        const meme = await Meme.findById(memeId);
-        if (!meme) {
-          throw new Error("Meme not found");
-        }
-        return meme.comments;
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    }, // getCommentsByMemeId
   }, // Query
 
   Mutation: {
@@ -107,69 +73,6 @@ const resolvers = {
       const token = signToken(user);
       return { token, user };
     }, // login
-
-    addComment: async (parent, { memeId, commentText }, context) => {
-      if (context.user) {
-        return Meme.findOneAndUpdate(
-          { _id: memeId },
-          {
-            $addToSet: {
-              comments: {
-                commentText,
-                commentAuthor: context.user.username,
-              },
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    }, // addComment
-
-    updateComment: async (
-      parent,
-      { memeId, commentId, commentText },
-      context
-    ) => {
-      if (context.user) {
-        const meme = await Meme.findById(memeId);
-        const comment = meme.comments.id(commentId);
-
-        if (comment.commentAuthor !== context.user.username) {
-          throw new AuthenticationError(
-            "You are not authorized to update this comment"
-          );
-        }
-
-        comment.commentText = commentText;
-
-        return await meme.save();
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    }, // updateComment
-
-    removeComment: async (parent, { memeId, commentId }, context) => {
-      if (context.user) {
-        return Meme.findOneAndUpdate(
-          { _id: memeId },
-          {
-            $pull: {
-              comments: {
-                _id: commentId,
-                commentAuthor: context.user.username,
-              },
-            },
-          },
-          {
-            new: true,
-          }
-        );
-      }
-      throw new AuthenticationError("You need to be logged in!");
-    }, // removeComment
 
     //add mutation for creating a meme
     // the creator field is populated with the user._id
@@ -276,61 +179,6 @@ const resolvers = {
 
       return meme;
     }, // removeLike
-
-    //add mutation for adding a favorite to a meme
-    // finding the meme by id
-    // checking if the meme exists
-    // checking if the user has already favorited the meme
-    // add the user._id to the meme.favorites array and save the meme to the db
-    addFavourite: async (parent, { memeId }, { user }) => {
-      if (!user) {
-        throw new AuthenticationError(
-          "You must be logged in to add a favourite."
-        );
-      }
-
-      const meme = await Meme.findById(memeId);
-      if (!meme) {
-        throw new UserInputError("Could not find meme with given id.");
-      }
-
-      // Check if the meme is already favourited by the user
-      if (meme.favorites.includes(user.id)) {
-        throw new UserInputError("Meme is already favourited by the user.");
-      }
-
-      // Add the user's id to the meme's favorites array
-      meme.favorites.push(user.id);
-      await meme.save();
-
-      return meme;
-    }, // addFavourite
-
-    removeFavourite: async (parent, { memeId }, { user }) => {
-      if (!user) {
-        throw new AuthenticationError(
-          "You must be logged in to remove a favourite."
-        );
-      }
-
-      const meme = await Meme.findById(memeId);
-      if (!meme) {
-        throw new UserInputError("Could not find meme with given id.");
-      }
-
-      // Check if the meme is already favourited by the user
-      if (!meme.favorites.includes(user.id)) {
-        throw new UserInputError("Meme is not favourited by the user.");
-      }
-
-      // Remove the user's id from the meme's favorites array
-      meme.favorites = meme.favorites.filter(
-        (favorite) => favorite.toString() !== user.id
-      );
-      await meme.save();
-
-      return meme;
-    }, // removeFavourite
   }, // Mutation
 }; // resolvers
 

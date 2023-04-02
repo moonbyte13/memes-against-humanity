@@ -24,12 +24,6 @@ const userSchema = new Schema(
         ref: 'Meme',
       },
     ],
-    favorites: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'Favorite',
-      }
-    ],
   },
   // set this to use virtual below
   {
