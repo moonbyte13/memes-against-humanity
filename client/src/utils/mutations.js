@@ -49,7 +49,6 @@ export const ADD_LIKE = gql`
   mutation AddLike($memeId: ID!) {
     addLike(memeId: $memeId) {
       id
-      title
       imageUrl
       likes
       likedBy {

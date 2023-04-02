@@ -3,12 +3,6 @@ const dateFormat = require("../utils/dateFormat");
 
 const memeSchema = new Schema(
   {
-    title: {
-      type: String,
-      required: false,
-      sparse: true,
-      trim: true
-    },
     imageUrl: {
       type: String,
       required: true,
