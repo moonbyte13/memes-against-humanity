@@ -24,20 +24,6 @@ export const ADD_USER = gql`
   }
 `;
 
-export const ADD_COMMENT = gql`
-  mutation addComment($memeId: ID!, $commentText: String!) {
-    addComment(memeId: $memeId, commentText: $commentText) {
-      _id
-      comments {
-        _id
-        commentText
-        commentAuthor
-        createdAt
-      }
-    }
-  }
-`;
-
 // creating a mutation to add a meme
 export const CREATE_MEME = gql`
   mutation createMeme($title: String!, $imageUrl: String!) {
@@ -54,18 +40,9 @@ export const CREATE_MEME = gql`
         _id
         username
       }
-      comments {
-        _id
-        commentText
-        commentAuthor {
-          _id
-          username
-        }
-        createdAt
-      }
     }
   }
-`; 
+`;
 
 // creating a mutation for liking a meme
 export const ADD_LIKE = gql`
@@ -76,21 +53,6 @@ export const ADD_LIKE = gql`
       imageUrl
       likes
       likedBy {
-        id
-        username
-      }
-    }
-  }
-`;
-
-// creating a mutation for adding a favorite meme
-export const ADD_FAVORITE = gql`
-  mutation AddFavourite($memeId: ID!) {
-    addFavourite(memeId: $memeId) {
-      id
-      title
-      imageUrl
-      favourites {
         id
         username
       }

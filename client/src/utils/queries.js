@@ -15,22 +15,6 @@ export const QUERY_MEMES = gql`
         _id
         username
       }
-      comments {
-        _id
-        commentText
-        commentAuthor {
-          _id
-          username
-        }
-        createdAt
-      }
-      favorites {
-        _id
-        user {
-          _id
-          username
-        }
-      }
     }
   }
 `;
@@ -60,27 +44,10 @@ export const GET_ME = gql`
           _id
           username
         }
-        comments {
-          _id
-          commentText
-          commentAuthor {
-            _id
-            username
-          }
-          createdAt
-        }
-      }
-      favorites {
-        _id
-        meme {
-          _id
-          title
-        }
       }
     }
   }
 `;
-
 
 export const QUERY_USER = gql`
   query user($username: String!) {
@@ -107,29 +74,6 @@ export const QUERY_USER = gql`
           _id
           username
         }
-        comments {
-          _id
-          commentText
-          commentAuthor {
-            _id
-            username
-          }
-          createdAt
-        }
-        favorites {
-          _id
-          user {
-            _id
-            username
-          }
-        }
-      }
-      favorites {
-        _id
-        meme {
-          _id
-          title
-        }
       }
     }
   }
@@ -151,22 +95,6 @@ export const QUERY_MEME = gql`
         _id
         username
       }
-      comments {
-        _id
-        commentText
-        commentAuthor {
-          _id
-          username
-        }
-        createdAt
-      }
-      favorites {
-        _id
-        user {
-          _id
-          username
-        }
-      }  
     }
   }
 `;

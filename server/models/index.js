@@ -1,5 +1,4 @@
-const User = require('./User');
-const Meme = require('./Meme');
-const Favorite = require('./Favorite');
+const User = require("./User");
+const Meme = require("./Meme");
 
-module.exports = { User, Meme, Favorite };
+module.exports = { User, Meme };
