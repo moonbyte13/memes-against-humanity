@@ -11,7 +11,7 @@ import Home from './pages/Home';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Header from './components/Header';
-import MemesPage from './pages/Memes';
+import MemesPage from './pages/memes';
 import CreatePage from './pages/Create';
 import Profile from './pages/Profile';
 
@@ -33,7 +33,6 @@ const client = new ApolloClient({
   link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
 });
-
 
 function App() {
   return (
@@ -60,6 +59,10 @@ function App() {
             />
             <Route
               path="/memes"
+              element={<MemesPage />}
+            />
+             <Route
+              path="/memes/:id"
               element={<MemesPage />}
             />
             <Route
