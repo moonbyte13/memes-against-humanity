@@ -1,11 +1,11 @@
 import React from "react";
-import MemeGallery from "../components/MemeGallery";
+import Memes from "../components/Memes";
 
 function MemesPage() {
   return (
     <div>
       <h1>Latest Memes</h1>
-      <MemeGallery />
+      <Memes />
     </div>
   );
 }
