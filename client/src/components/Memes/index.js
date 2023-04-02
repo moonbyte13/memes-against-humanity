@@ -50,17 +50,23 @@ function GiphyGallery() {
             ))}
           </select>
         </div>
-        <div>
-          <Link to="/memes">Back to gallery</Link>
-        </div>
+        {selectedGif && (
+          <div>
+            <Link to="/memes">Back to gallery</Link>
+          </div>
+        )}
       </div>
       {selectedGif ? (
-        <div>
+        <div className="h-3/6 flex flex-col">
           <img
             src={selectedGif.images.downsized_medium.url}
             alt={selectedGif.title}
-            className='w-full object-cover self-center'
+            className='h-3/5 object-contain'
           />
+          <div className="flex justify-center mt-4">
+            <button className="mr-4 px-4 py-2 border rounded">Save</button>
+            <button className="px-4 py-2 border rounded">Like</button>
+          </div>
         </div>
       ) : (
         <div className="gallery grid grid-cols-2 gap-4">
