@@ -1,5 +1,4 @@
 import decode from 'jwt-decode';
-
 class AuthService {
   getProfile() {
     return decode(this.getToken());
@@ -8,8 +7,8 @@ class AuthService {
   getCurrentUserId() {
     const token = this.getToken();
     if (token) {
-      const { sub } = decode(token);
-      return sub;
+      const sub = decode(token);
+      return sub.data._id;
     }
     return null;
   }
