@@ -102,11 +102,11 @@ function GiphyGallery() {
   
 
   return (
-    <div class="flex flex-col">
-      <div class="flex justify-between items-center mb-4">
-        <div class="flex items-center">
+    <div className="flex flex-col">
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center">
           <select
-            class="px-2 py-1 border rounded mr-2 text-lg"
+            className="px-2 py-1 border rounded mr-2 text-lg"
             value={searchTerm ? searchTerm : selectedSubcategory}
             onChange={(e) => {
               setSelectedSubcategory(e.target.value);
@@ -123,7 +123,7 @@ function GiphyGallery() {
           <input
             type="text"
             placeholder="Search for GIFs"
-            class="px-2 py-1 border rounded text-lg"
+            className="px-2 py-1 border rounded text-lg"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -142,16 +142,16 @@ function GiphyGallery() {
         )}
       </div>
       {selectedGif ? (
-        <div class="flex flex-col items-center">
+        <div className="flex flex-col items-center">
           <img
             src={selectedGif.images.downsized_medium.url}
             alt={selectedGif.title}
-            class="object-contain h-fit w-full mb-4"
+            className="object-contain h-fit w-full mb-4"
           />
-          <div class="flex justify-center space-x-4">
+          <div className="flex justify-center space-x-4">
             {Auth.loggedIn() ? (
               <button
-                class="px-4 py-2 border rounded bg-green-500 text-white hover:bg-green-700"
+              className="px-4 py-2 border rounded bg-green-500 text-white hover:bg-green-700"
                 onClick={handleSave}
               >
                 Save
@@ -159,7 +159,7 @@ function GiphyGallery() {
             ) : (
               <Link
                 to="/login"
-                class="px-4 py-2 border rounded bg-blue-500 text-white hover:bg-blue-700"
+                className="px-4 py-2 border rounded bg-blue-500 text-white hover:bg-blue-700"
               >
                 Log in to save
               </Link>
@@ -179,14 +179,14 @@ function GiphyGallery() {
           </div>
         </div>      
       ) : (
-        <div class="gallery grid grid-cols-2 gap-4">
+        <div className="gallery grid grid-cols-2 gap-4">
           {gifs.map((gif) => (
             <Link to={`/memes/${gif.id}`} key={gif.id}>
               <div className="w-full h-[40rem]">
                 <img
                   src={gif.images.downsized_medium.url}
                   alt={gif.title}
-                  class="object-cover w-full h-full"
+                  className="object-cover w-full h-full"
                 />
               </div>
             </Link>
