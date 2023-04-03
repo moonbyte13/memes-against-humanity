@@ -2,11 +2,11 @@ import React from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_ME } from '../utils/queries';
 import { useMutation } from '@apollo/client';
-// import { REMOVE_MEME } from '../utils/mutations';
+import { REMOVE_MEME } from '../utils/mutations';
 
 function Profile() {
   const { loading, error, data } = useQuery(GET_ME);
-  // const [removeMeme] = useMutation(REMOVE_MEME);
+  const [removeMeme] = useMutation(REMOVE_MEME);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -19,17 +19,19 @@ function Profile() {
 
   const { me } = data;
 
-  // const handleRemoveMeme = (memeId) => {
-  //   removeMeme({
-  //     variables: { memeId },
-  //     update(cache, { data: { removeMeme } }) {
-  //       cache.writeQuery({
-  //         query: GET_ME,
-  //         data: { me: removeMeme },
-  //       });
-  //     },
-  //   });
-  // };
+  const handleRemoveMeme = (memeId) => {
+    removeMeme({
+      variables: { memeId },
+      update(cache, { data: { removeMeme } }) {
+        const existingMe = cache.readQuery({ query: GET_ME });
+        const newMemes = existingMe.me.memes.filter((meme) => meme._id !== memeId);
+        cache.writeQuery({
+          query: GET_ME,
+          data: { me: { ...existingMe.me, memes: newMemes } },
+        });
+      },
+    });
+  };
 
   return (
     <div>
@@ -43,7 +45,7 @@ function Profile() {
             <div className="card-body">
               <h5 className="card-title">{meme.title}</h5>
               <p className="card-text">{meme.description}</p>
-              {/* <button className="btn btn-danger" onClick={() => handleRemoveMeme(meme._id)}>Delete</button> */}
+              <button className="btn btn-danger" onClick={() => handleRemoveMeme(meme._id)}>Delete</button>
             </div>
           </div>
         ))}

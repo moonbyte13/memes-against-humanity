@@ -47,7 +47,7 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth # returns a User object
     # createMeme(title: String!, imageUrl: String!): Meme! # returns a Meme object
     # updateMeme(id: ID!, title: String!, imageUrl: String!): Meme! # returns a Meme object
-    deleteMeme(id: ID!): Meme! # returns a Meme object
+    deleteMeme(memeId: ID!): ID!
     addLike(memeId: ID!): AddLikeResponse!
     # saveMeme(memeId: ID!, imageUrl: String!): Meme!
     saveMemeAndUser(userId: ID!, memeId: String!, imageUrl: String!): User!
