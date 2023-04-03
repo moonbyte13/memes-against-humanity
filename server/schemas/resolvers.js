@@ -74,22 +74,28 @@ const resolvers = {
       return { token, user };
     }, // login
     
-    saveMemeAndUser: async (_, { userId, imageUrl }, { User, Meme }) => {
+    saveMemeAndUser: async (parent, { userId, memeId, imageUrl, id }) => {
       try {
-        const meme = new Meme({ imageUrl, creator: userId });
-        await meme.save();
-    
-        const user = await User.findByIdAndUpdate(
-          userId,
-          { $push: { memes: meme._id } },
+        const meme = new Meme({
+          memeId,
+          imageUrl,
+          _id: id
+        });
+        const savedMeme = await meme.save();
+        const user = await User.findById(userId);
+        user.memes.push(savedMeme._id);
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: userId },
+          { $push: { memes: savedMeme._id } },
           { new: true }
-        );
-    
-        return user;
-      } catch (err) {
-        throw new Error("Error saving meme to user");
+        ).populate('memes');
+        return updatedUser;
+      } catch (error) {
+        console.error(error);
+        throw new Error('Error saving meme and user');
       }
     },
+    
     
     //add mutation for deleting a meme
     // finding the meme by id
