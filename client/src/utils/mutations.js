@@ -49,3 +49,9 @@ export const SAVE_MEME_AND_USER = gql`
     }
   }
 `;
+
+export const REMOVE_MEME = gql`
+  mutation removeMeme($memeId: ID!) {
+    deleteMeme(memeId: $memeId)
+  }
+`;
