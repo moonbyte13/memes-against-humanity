@@ -37,9 +37,9 @@ function Home() {
         </div>
         <div className="bg-white rounded-lg shadow-md p-4">
           <img
-            src="https://media.tenor.com/ZdsuebifYAMAAAAC/balcony-clorox.gif"
+            src="https://media.tenor.com/g4tX71wLqWkAAAAM/happy-monday-garfield.gif"
             alt="Meme 5"
-            className="w-full h-[24rem] object-cover"
+            className="w-full h-[26rem] object-cover"
           />
         </div>
         <div className="bg-white rounded-lg shadow-md p-4">
