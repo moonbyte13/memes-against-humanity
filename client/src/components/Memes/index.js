@@ -1,33 +1,32 @@
-import { useState, useEffect } from 'react';
-import { createGiphyFetch } from '../../utils/giphyApi';
-import { Link, useParams } from 'react-router-dom';
-import { useMutation } from '@apollo/client';
-import { SAVE_MEME_AND_USER } from '../../utils/mutations';
-import Auth from '../../utils/auth';
+import { useState, useEffect } from "react";
+import { createGiphyFetch } from "../../utils/giphyApi";
+import { Link, useParams } from "react-router-dom";
+import { useMutation } from "@apollo/client";
+import { SAVE_MEME_AND_USER } from "../../utils/mutations";
+import Auth from "../../utils/auth";
 
 const giphyFetch = createGiphyFetch();
 
 function GiphyGallery() {
   const [gifs, setGifs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedSubcategory, setSelectedSubcategory] = useState('Fail');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("Fail");
   const { id } = useParams(); // get the ID from the URL params
   const [saveMemeAndUser] = useMutation(SAVE_MEME_AND_USER);
   const userId = Auth.getCurrentUserId();
-  console.log('memeId', id ); 
+  console.log("memeId", id);
 
-  
   // now you can use the `id` variable in your component
-  console.log('userId', userId);
+  console.log("userId", userId);
   useEffect(() => {
     async function fetchGifs() {
-      let query = '';
+      let query = "";
       if (searchTerm) {
         query = searchTerm;
       } else {
         query = selectedSubcategory;
       }
-      const { data } = await giphyFetch.gifs('memes', query);
+      const { data } = await giphyFetch.gifs("memes", query);
       setGifs(data);
     }
     fetchGifs();
@@ -38,18 +37,18 @@ function GiphyGallery() {
 
   // define the list of subcategories for the dropdown
   const subcategories = [
-    'Fail',
-    'Confused',
-    'Dank memes',
-    'Deal with it',
-    'Feels',
-    'Forever alone',
-    'Hair flip',
-    'Judge Judy',
-    'Like a boss',
-    'Look at all the fucks I give',
-    'Sips tea',
-    'Steal yo girl',
+    "Fail",
+    "Confused",
+    "Dank memes",
+    "Deal with it",
+    "Feels",
+    "Forever alone",
+    "Hair flip",
+    "Judge Judy",
+    "Like a boss",
+    "Look at all the fucks I give",
+    "Sips tea",
+    "Steal yo girl",
   ];
 
   // define the onClick handler for the "Save" button
@@ -65,25 +64,23 @@ function GiphyGallery() {
       },
     })
       .then(() => {
-        window.location.href = '/profile';
+        window.location.href = "/profile";
       })
       .catch((error) => {
         console.error(error.message);
       });
   };
 
-  
-
   return (
-    <div>
-      <div className="flex justify-between items-center mb-4">
-        <div>
+    <div class="flex flex-col">
+      <div class="flex justify-between items-center mb-4">
+        <div class="flex items-center">
           <select
-            className="px-2 py-1 border rounded mr-2"
+            class="px-2 py-1 border rounded mr-2 text-lg"
             value={searchTerm ? searchTerm : selectedSubcategory}
             onChange={(e) => {
               setSelectedSubcategory(e.target.value);
-              setSearchTerm('');
+              setSearchTerm("");
             }}
             disabled={searchTerm ? true : false}
           >
@@ -96,7 +93,7 @@ function GiphyGallery() {
           <input
             type="text"
             placeholder="Search for GIFs"
-            className="px-2 py-1 border rounded"
+            class="px-2 py-1 border rounded text-lg"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
@@ -105,42 +102,54 @@ function GiphyGallery() {
         </div>
         {selectedGif && (
           <div>
-            <Link to="/memes">Back to gallery</Link>
+            <Link
+              to="/memes"
+              className="inline-block bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Back to gallery
+            </Link>
           </div>
         )}
       </div>
       {selectedGif ? (
-        <div className="h-3/6 flex flex-col">
+        <div class="flex flex-col items-center">
           <img
             src={selectedGif.images.downsized_medium.url}
             alt={selectedGif.title}
-            className="h-3/5 object-contain"
+            class="object-contain h-fit w-full mb-4"
           />
-          <div className="flex justify-center mt-4">
+          <div class="flex justify-center space-x-4">
             {Auth.loggedIn() ? (
               <button
-                className="mr-4 px-4 py-2 border rounded"
+                class="px-4 py-2 border rounded bg-green-500 text-white hover:bg-green-700"
                 onClick={handleSave}
               >
                 Save
               </button>
             ) : (
-              <Link to="/login" className="mr-4 px-4 py-2 border rounded">
+              <Link
+                to="/login"
+                class="px-4 py-2 border rounded bg-blue-500 text-white hover:bg-blue-700"
+              >
                 Log in to save
               </Link>
             )}
-            <button className="px-4 py-2 border rounded">Like</button>
+            <button class="px-4 py-2 border rounded bg-gray-300 hover:bg-gray-400">
+              Like
+            </button>
           </div>
         </div>
       ) : (
-        <div className="gallery grid grid-cols-2 gap-4">
+        <div class="gallery grid grid-cols-2 gap-4">
           {gifs.map((gif) => (
             <Link to={`/memes/${gif.id}`} key={gif.id}>
-              <img
-                src={gif.images.downsized_medium.url}
-                alt={gif.title}
-                className="w-full object-cover self-center"
-              />
+              <div className="w-full h-[40rem]">
+                <img
+                  src={gif.images.downsized_medium.url}
+                  alt={gif.title}
+                  class="object-cover w-full h-full"
+                />
+              </div>
             </Link>
           ))}
         </div>
