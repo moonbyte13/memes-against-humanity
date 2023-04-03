@@ -14,7 +14,7 @@
 
 ## Deployment Link ✔️
 
-[WIP]
+[Test it on Heroku!](https://memes-against-humanity.herokuapp.com/)
 
 ## Installation ⚙️
 
