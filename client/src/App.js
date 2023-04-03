@@ -1,9 +1,10 @@
-import React from 'react';
+import React from "react";
 import {
   ApolloClient,
   InMemoryCache,
   ApolloProvider,
   createHttpLink,
+<<<<<<< HEAD
 } from '@apollo/client';
 import { setContext } from '@apollo/client/link/context';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -14,17 +15,30 @@ import Header from './components/Header';
 import MemesPage from './pages/Memes';
 import CreatePage from './pages/Create';
 import Profile from './pages/Profile';
+=======
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./pages/Home";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
+import Header from "./components/Header";
+import MemesPage from "./pages/Memes";
+import CreatePage from "./pages/Create";
+import Profile from "./pages/Profile";
+>>>>>>> main
 
+import "./App.css";
 const httpLink = createHttpLink({
-  uri: '/graphql',
+  uri: "/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('id_token');
+  const token = localStorage.getItem("id_token");
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '',
+      authorization: token ? `Bearer ${token}` : "",
     },
   };
 });
@@ -38,46 +52,22 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
-        <Header />
+        <Header classname="w-full" />
         <>
           <Routes>
-            <Route 
-              path='/' 
-              element={<Home />} 
-            />
-            <Route 
-                path="/login" 
-                element={<Login />}
-              />
-              <Route 
-                path="/signup" 
-                element={<Signup />}
-              />
-            <Route 
-              path='*'
-              element={<h1>404 Not Found</h1>}
-            />
-            <Route
-              path="/memes"
-              element={<MemesPage />}
-            />
-             <Route
-              path="/memes/:id"
-              element={<MemesPage />}
-            />
-            <Route
-              path="/create"
-              element={<CreatePage />}
-            />
-            <Route
-              path="/profile"
-              element={<Profile />}
-            />
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="*" element={<h1>404 Not Found</h1>} />
+            <Route path="/memes" element={<MemesPage />} />
+            <Route path="/memes/:id" element={<MemesPage />} />
+            <Route path="/create" element={<CreatePage />} />
+            <Route path="/profile" element={<Profile />} />
           </Routes>
         </>
       </Router>
     </ApolloProvider>
-  )
+  );
 }
 
 export default App;
