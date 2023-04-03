@@ -1,5 +1,5 @@
 const db = require('../config/connection');
-const { User } = require('../models');
+const { User, Meme } = require('../models');
 const userData = require('./userSeeds.json');
 
 db.once('open', async function() {
@@ -9,8 +9,8 @@ db.once('open', async function() {
     const users = await User.insertMany(userData);
     console.log('Users seeded:', users.length);
 
-    await db.collection('memes').dropIndex({title: 1});
     await db.collection('memes').deleteMany({});
+    await Meme.deleteMany({});
     console.log('Memes collection cleared');
     // const memeData = require('./memeSeeds.json');
     // const memes = await Meme.insertMany(memeData);

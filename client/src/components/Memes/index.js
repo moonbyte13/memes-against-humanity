@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { createGiphyFetch } from '../../utils/giphyApi';
 import { Link, useParams } from 'react-router-dom';
@@ -5,18 +6,20 @@ import { useMutation } from '@apollo/client';
 import { SAVE_MEME_AND_USER, ADD_LIKE } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
+
 const giphyFetch = createGiphyFetch();
 
 function GiphyGallery() {
   const [numLikes, setNumLikes] = useState(0);
 
   const [gifs, setGifs] = useState([]);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState("Fail");
+  const [searchTerm, setSearchTerm] = useState('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('SpongeBob');
   const { id } = useParams(); // get the ID from the URL params
   const [saveMemeAndUser] = useMutation(SAVE_MEME_AND_USER);
   const userId = Auth.getCurrentUserId();
   console.log('memeId', id ); 
+
 
   const [addLike] = useMutation(ADD_LIKE, {
     onCompleted: (data) => {
@@ -25,6 +28,7 @@ function GiphyGallery() {
   });
   
   
+
   // now you can use the `id` variable in your component
   console.log("userId", userId);
   useEffect(() => {
@@ -72,6 +76,7 @@ function GiphyGallery() {
       },
     })
       .then(() => {
+
         console.log('Meme saved!');
         window.location.href = '/profile';
       })
@@ -159,6 +164,7 @@ function GiphyGallery() {
                 Log in to save
               </Link>
             )}
+
             {Auth.loggedIn() && (
               <button
                 className={`
