@@ -1,21 +1,30 @@
-import { useState, useEffect } from "react";
-import { createGiphyFetch } from "../../utils/giphyApi";
-import { Link, useParams } from "react-router-dom";
-import { useMutation } from "@apollo/client";
-import { SAVE_MEME_AND_USER } from "../../utils/mutations";
-import Auth from "../../utils/auth";
+import { useState, useEffect } from 'react';
+import { createGiphyFetch } from '../../utils/giphyApi';
+import { Link, useParams } from 'react-router-dom';
+import { useMutation } from '@apollo/client';
+import { SAVE_MEME_AND_USER, ADD_LIKE } from '../../utils/mutations';
+import Auth from '../../utils/auth';
 
 const giphyFetch = createGiphyFetch();
 
 function GiphyGallery() {
+  const [numLikes, setNumLikes] = useState(0);
+
   const [gifs, setGifs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("Fail");
   const { id } = useParams(); // get the ID from the URL params
   const [saveMemeAndUser] = useMutation(SAVE_MEME_AND_USER);
   const userId = Auth.getCurrentUserId();
-  console.log("memeId", id);
+  console.log('memeId', id ); 
 
+  const [addLike] = useMutation(ADD_LIKE, {
+    onCompleted: (data) => {
+      setNumLikes(data.addLike.numLikes);
+    },
+  });
+  
+  
   // now you can use the `id` variable in your component
   console.log("userId", userId);
   useEffect(() => {
@@ -37,39 +46,55 @@ function GiphyGallery() {
 
   // define the list of subcategories for the dropdown
   const subcategories = [
-    "Fail",
-    "Confused",
-    "Dank memes",
-    "Deal with it",
-    "Feels",
-    "Forever alone",
-    "Hair flip",
-    "Judge Judy",
-    "Like a boss",
-    "Look at all the fucks I give",
-    "Sips tea",
-    "Steal yo girl",
+    'SpongeBob',
+    'Rickroll',
+    'OBEY',
+    'Deal with it',
+    'All Your Base Are Belong to Us',
+    'The Dancing Baby',
+    'Keyboard Cat',
+    'Kermit',
+    'Doge',
+    'Bert Is Evil',
+    'Nyan Cat',
+    'Steal yo girl',
   ];
 
   // define the onClick handler for the "Save" button
-  // define the onClick handler for the "Save" button
   const handleSave = () => {
-    if (!Auth.loggedIn() || !selectedGif) return;
-
+    if (!Auth.loggedIn()) return;
+  
     saveMemeAndUser({
       variables: {
         userId: userId,
-        memeId: selectedGif.id.toString(),
+        memeId: selectedGif.slug,
         imageUrl: selectedGif.images.downsized_medium.url,
       },
     })
       .then(() => {
-        window.location.href = "/profile";
+        console.log('Meme saved!');
+        window.location.href = '/profile';
       })
       .catch((error) => {
         console.error(error.message);
       });
   };
+  
+  
+
+  const handleLikeClick = () => {
+    if (!Auth.loggedIn()) return;
+  
+    addLike({
+      variables: {
+        memeId: selectedGif.id,
+      },
+    });
+  };
+  
+  
+
+  
 
   return (
     <div class="flex flex-col">
@@ -134,11 +159,19 @@ function GiphyGallery() {
                 Log in to save
               </Link>
             )}
-            <button class="px-4 py-2 border rounded bg-gray-300 hover:bg-gray-400">
-              Like
-            </button>
+            {Auth.loggedIn() && (
+              <button
+                className={`
+                  px-4 py-2 border rounded
+                  ${numLikes > 0 ? "bg-green-500 text-white" : ""}
+                `}
+                onClick={handleLikeClick}
+              >
+                {numLikes > 0 ? `${numLikes} likes` : "Like"}
+              </button>
+            )}
           </div>
-        </div>
+        </div>      
       ) : (
         <div class="gallery grid grid-cols-2 gap-4">
           {gifs.map((gif) => (
