@@ -18,7 +18,7 @@ function GiphyGallery() {
   const { id } = useParams(); // get the ID from the URL params
   const [saveMemeAndUser] = useMutation(SAVE_MEME_AND_USER);
   const userId = Auth.getCurrentUserId();
-  console.log("memeId", id);
+  console.log('memeId', id ); 
 
 
   const [addLike] = useMutation(ADD_LIKE, {
@@ -97,6 +97,8 @@ function GiphyGallery() {
     });
   };
   
+  
+
   
 
   return (
