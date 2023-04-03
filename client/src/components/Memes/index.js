@@ -135,7 +135,7 @@ function GiphyGallery() {
                 Log in to save
               </Link>
             )}
-            <button className="px-4 py-2 border rounded">Like</button>
+            {Auth.loggedIn() && <button className="px-4 py-2 border rounded">Like</button>}
           </div>
         </div>
       ) : (
