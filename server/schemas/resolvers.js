@@ -1,38 +1,38 @@
-const { AuthenticationError } = require("apollo-server-express");
-const { User, Meme } = require("../models");
-const { signToken } = require("../utils/auth");
+const { AuthenticationError } = require('apollo-server-express');
+const { User, Meme } = require('../models');
+const { signToken } = require('../utils/auth');
 
 const resolvers = {
   Query: {
     // get all users
     users: async () => {
-      return User.find().populate("memes");
+      return User.find().populate('memes');
     },
 
     // get a single user by username
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("memes");
+      return User.findOne({ username }).populate('memes');
     },
 
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("memes");
+        return User.findOne({ _id: context.user._id }).populate('memes');
       }
-      throw new AuthenticationError("You need to be logged in!");
+      throw new AuthenticationError('You need to be logged in!');
     },
     // memes query, returns all memes from db and populates the creator, likes  fields
     memes: async () => {
-      const memes = await Meme.find().populate("creator").populate("likes");
+      const memes = await Meme.find().populate('creator').populate('likes');
       return memes;
     },
 
     // meme query, returns a single meme from db and populates the creator, likes fields
     meme: async (parent, { id }) => {
       const meme = await Meme.findById(id)
-        .populate("creator")
-        .populate("likes");
+        .populate('creator')
+        .populate('likes');
       if (!meme) {
-        throw new Error("Meme not found");
+        throw new Error('Meme not found');
       }
       return meme;
     },
@@ -40,11 +40,11 @@ const resolvers = {
     // userMemes query, returns all memes created by a user and populates the creator, likes fields
     userMemes: async (parent, args, { user }) => {
       if (!user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
       const memes = await Meme.find({ creator: user._id })
-        .populate("creator")
-        .populate("likes");
+        .populate('creator')
+        .populate('likes');
 
       return memes;
     }, // userMemes
@@ -62,24 +62,24 @@ const resolvers = {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw new AuthenticationError("No user found with this email address");
+        throw new AuthenticationError('No user found with this email address');
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw new AuthenticationError("Incorrect credentials");
+        throw new AuthenticationError('Incorrect credentials');
       }
       const token = signToken(user);
       return { token, user };
     }, // login
-    
+
     saveMemeAndUser: async (parent, { userId, memeId, imageUrl, id }) => {
       try {
         const meme = new Meme({
           memeId,
           imageUrl,
-          _id: id
+          _id: id,
         });
         const savedMeme = await meme.save();
         const user = await User.findById(userId);
@@ -95,8 +95,7 @@ const resolvers = {
         throw new Error('Error saving meme and user');
       }
     },
-    
-    
+
     //add mutation for deleting a meme
     // finding the meme by id
     // checking if the meme exists
@@ -109,16 +108,25 @@ const resolvers = {
           owner: user._id,
         });
         if (!deletedMeme) {
-          throw new Error("Meme not found or not authorized to delete");
+          throw new Error('Meme not found or not authorized to delete');
         }
         await User.findByIdAndUpdate(user._id, {
           $pull: { memes: memeId },
         });
         return memeId;
       } catch (err) {
-        throw new Error("Error deleting meme");
+        throw new Error('Error deleting meme');
       }
     },
+
+      editEmail: async (parent, { email }, { user }) => {
+        if (!user) {
+          throw new AuthenticationError('You must be logged in to edit your email.');
+        }
+        const updatedUser = await User.findByIdAndUpdate(user._id, { email }, { new: true })
+          .populate('memes');
+        return updatedUser;
+      },
 
     //add mutation for adding a like to a meme
     // finding the meme by id
@@ -127,16 +135,16 @@ const resolvers = {
     // increment the meme.likes by 1 and save the meme to the db
     addLike: async (parent, { memeId }, { user }) => {
       if (!user) {
-        throw new Error("Authentication required");
+        throw new Error('Authentication required');
       }
 
       const meme = await Meme.findById(memeId);
       if (!meme) {
-        throw new Error("Meme not found");
+        throw new Error('Meme not found');
       }
 
       if (meme.likedBy.includes(user._id)) {
-        throw new Error("You have already liked this meme");
+        throw new Error('You have already liked this meme');
       }
 
       meme.likes += 1;
@@ -150,25 +158,25 @@ const resolvers = {
     // checking if the meme exists
     // checking if the user has already liked the meme
     // decrement the meme.likes by 1 and save the meme to the db
-//     removeLike: async (parent, { memeId }, { user }) => {
-//       const meme = await Meme.findById(memeId);
-//       if (!meme) {
-//         throw new Error("Meme not found");
-//       }
+    //     removeLike: async (parent, { memeId }, { user }) => {
+    //       const meme = await Meme.findById(memeId);
+    //       if (!meme) {
+    //         throw new Error("Meme not found");
+    //       }
 
-//       if (!meme.likedBy.includes(user._id)) {
-//         throw new Error("You have not liked this meme");
-//       }
+    //       if (!meme.likedBy.includes(user._id)) {
+    //         throw new Error("You have not liked this meme");
+    //       }
 
-//       // filter likedBy array to remove user._id from someone who is unliking the meme
-//       meme.likedBy = meme.likedBy.filter(
-//         (userId) => userId.toString() !== user._id.toString()
-//       );
-//       meme.likes -= 1;
-//       await meme.save();
+    //       // filter likedBy array to remove user._id from someone who is unliking the meme
+    //       meme.likedBy = meme.likedBy.filter(
+    //         (userId) => userId.toString() !== user._id.toString()
+    //       );
+    //       meme.likes -= 1;
+    //       await meme.save();
 
-//       return meme;
-//     }, // removeLike
+    //       return meme;
+    //     }, // removeLike
   }, // Mutation
 }; // resolvers
 
