@@ -14,7 +14,7 @@ const typeDefs = gql`
     memeId: String!
     imageUrl: String
     creator: User
-    likes: Int
+    likes: [Int]
     likedBy: [User] # this is an array of users who liked the meme
   }
 
