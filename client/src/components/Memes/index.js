@@ -46,17 +46,17 @@ function GiphyGallery() {
 
   // define the list of subcategories for the dropdown
   const subcategories = [
-    'Fail',
-    'Confused',
-    'Dank memes',
+    'SpongeBob',
+    'Rickroll',
+    'OBEY',
     'Deal with it',
-    'Feels',
-    'Forever alone',
-    'Hair flip',
-    'Judge Judy',
-    'Like a boss',
-    'Look at all the fucks I give',
-    'Sips tea',
+    'All Your Base Are Belong to Us',
+    'The Dancing Baby',
+    'Keyboard Cat',
+    'Kermit',
+    'Doge',
+    'Bert Is Evil',
+    'Nyan Cat',
     'Steal yo girl',
   ];
 
