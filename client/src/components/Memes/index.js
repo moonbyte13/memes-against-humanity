@@ -53,24 +53,30 @@ function GiphyGallery() {
   ];
 
   // define the onClick handler for the "Save" button
-  // define the onClick handler for the "Save" button
   const handleSave = () => {
-    if (!Auth.loggedIn() || !selectedGif) return;
-
-    saveMemeAndUser({
-      variables: {
-        userId: userId,
-        memeId: selectedGif.id.toString(),
-        imageUrl: selectedGif.images.downsized_medium.url,
-      },
-    })
-      .then(() => {
-        window.location.href = '/profile';
+    if (!Auth.loggedIn()) return;
+  
+    const selectedGifs = gifs.filter((gif) => gif.selected);
+  
+    selectedGifs.forEach((selectedGif) => {
+      saveMemeAndUser({
+        variables: {
+          userId: userId,
+          memeId: selectedGif.slug,
+          imageUrl: selectedGif.images.downsized_medium.url,
+        },
       })
-      .catch((error) => {
-        console.error(error.message);
-      });
+        .then(() => {
+          console.log('Meme saved!');
+        })
+        .catch((error) => {
+          console.error(error.message);
+        });
+    });
+  
+    window.location.href = '/profile';
   };
+  
 
   
 
