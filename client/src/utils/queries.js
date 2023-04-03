@@ -26,7 +26,6 @@ export const GET_ME = gql`
       username
       memes {
         _id
-        title
         imageUrl
         creator {
           _id
@@ -42,6 +41,8 @@ export const GET_ME = gql`
     }
   }
 `;
+
+
 
 export const QUERY_USER = gql`
   query user($username: String!) {
