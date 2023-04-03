@@ -4,7 +4,7 @@ function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen">
       <h1 className="text-4xl font-bold mb-8">
-      ✨Welcome! Here are some of our favourite memes.✨
+        ✨Welcome! Here are some of our favourite memes.✨
       </h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4">
         <div className="bg-white rounded-lg shadow-md p-4">
@@ -37,7 +37,7 @@ function Home() {
         </div>
         <div className="bg-white rounded-lg shadow-md p-4">
           <img
-            src="https://media3.giphy.com/media/3o6fJbwYFe3SmVVQ4M/giphy.gif?cid=ecf05e478nr6isq863ldo5w6hds6o7bk90pjjaqvy8jrszyh&rid=giphy.gif&ct=g"
+            src="https://media.tenor.com/ZdsuebifYAMAAAAC/balcony-clorox.gif"
             alt="Meme 5"
             className="w-full h-[24rem] object-cover"
           />
