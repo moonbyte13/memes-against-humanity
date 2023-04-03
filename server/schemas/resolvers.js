@@ -84,13 +84,18 @@ const resolvers = {
         const savedMeme = await meme.save();
         const user = await User.findById(userId);
         user.memes.push(savedMeme._id);
-        const updatedUser = await user.save().populate('memes');
+        const updatedUser = await User.findOneAndUpdate(
+          { _id: userId },
+          { $push: { memes: savedMeme._id } },
+          { new: true }
+        ).populate('memes');
         return updatedUser;
       } catch (error) {
         console.error(error);
         throw new Error('Error saving meme and user');
       }
     },
+    
     
     
     
