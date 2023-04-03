@@ -76,7 +76,11 @@ const resolvers = {
     
     saveMemeAndUser: async (parent, { userId, memeId, imageUrl, id }) => {
       try {
-        const meme = new Meme({ memeId, imageUrl, _id: id });
+        const meme = new Meme({
+          memeId,
+          imageUrl,
+          _id: id
+        });
         const savedMeme = await meme.save();
         const user = await User.findById(userId);
         user.memes.push(savedMeme._id);
@@ -87,6 +91,8 @@ const resolvers = {
         throw new Error('Error saving meme and user');
       }
     },
+    
+    
     
     //add mutation for deleting a meme
     // finding the meme by id
