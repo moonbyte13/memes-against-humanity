@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client';
 
 export const LOGIN_USER = gql`
   mutation Login($email: String!, $password: String!) {
@@ -55,3 +55,13 @@ export const REMOVE_MEME = gql`
     deleteMeme(memeId: $memeId)
   }
 `;
+
+export const EDIT_EMAIL = gql`
+  mutation editEmail($email: String!) {
+    editEmail(email: $email) {
+      username
+      email
+    }
+  }
+`;
+

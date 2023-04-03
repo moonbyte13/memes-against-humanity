@@ -45,13 +45,10 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth # returns an Auth object containing a token and user
     addUser(username: String!, email: String!, password: String!): Auth # returns a User object
-    # createMeme(title: String!, imageUrl: String!): Meme! # returns a Meme object
-    # updateMeme(id: ID!, title: String!, imageUrl: String!): Meme! # returns a Meme object
     deleteMeme(memeId: ID!): ID!
     addLike(memeId: ID!): AddLikeResponse!
-    # saveMeme(memeId: ID!, imageUrl: String!): Meme!
     saveMemeAndUser(userId: ID!, memeId: String!, imageUrl: String!): User!
-    # saveUserMeme(userId: ID!, memeId: String!): User!
+    editEmail(email: String!): User!
   }
 `;
 
