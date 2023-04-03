@@ -54,12 +54,6 @@ TECHNOLOGIES USED
 ![Meme Gallery](./assets/images/MemesGallery.gif "GIF of MemeGallery")
 ![Profile Memes](./assets/images/Profile%20Saved%20Memes.gif "Saved Profile Memes")
 
-## Installation ⚙️
-
-- Click the Green Code button above, and clone the repo.
-- After cloning, type npm install on the root folder. this will install the client side and server side dependencies
-- (in VSC) open terminal, type `npm run develop` this will automatically open the react app.
-- enjoy!
 
 ## Contributions & Credits 🧑‍🤝‍🧑
 
