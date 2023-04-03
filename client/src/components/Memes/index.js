@@ -64,26 +64,23 @@ function GiphyGallery() {
   const handleSave = () => {
     if (!Auth.loggedIn()) return;
   
-    const selectedGifs = gifs.filter((gif) => gif.selected);
-  
-    selectedGifs.forEach((selectedGif) => {
-      saveMemeAndUser({
-        variables: {
-          userId: userId,
-          memeId: selectedGif.slug,
-          imageUrl: selectedGif.images.downsized_medium.url,
-        },
+    saveMemeAndUser({
+      variables: {
+        userId: userId,
+        memeId: selectedGif.slug,
+        imageUrl: selectedGif.images.downsized_medium.url,
+      },
+    })
+      .then(() => {
+        console.log('Meme saved!');
+        window.location.href = '/profile';
       })
-        .then(() => {
-          console.log('Meme saved!');
-        })
-        .catch((error) => {
-          console.error(error.message);
-        });
-    });
-  
-    window.location.href = '/profile';
+      .catch((error) => {
+        console.error(error.message);
+      });
   };
+  
+  
 
   const handleLikeClick = () => {
     if (!Auth.loggedIn()) return;
