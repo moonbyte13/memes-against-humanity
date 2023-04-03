@@ -2,12 +2,14 @@ import { useState, useEffect } from 'react';
 import { createGiphyFetch } from '../../utils/giphyApi';
 import { Link, useParams } from 'react-router-dom';
 import { useMutation } from '@apollo/client';
-import { SAVE_MEME_AND_USER } from '../../utils/mutations';
+import { SAVE_MEME_AND_USER, ADD_LIKE } from '../../utils/mutations';
 import Auth from '../../utils/auth';
 
 const giphyFetch = createGiphyFetch();
 
 function GiphyGallery() {
+  const [numLikes, setNumLikes] = useState(0);
+
   const [gifs, setGifs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedSubcategory, setSelectedSubcategory] = useState('Fail');
@@ -16,6 +18,12 @@ function GiphyGallery() {
   const userId = Auth.getCurrentUserId();
   console.log('memeId', id ); 
 
+  const [addLike] = useMutation(ADD_LIKE, {
+    onCompleted: (data) => {
+      setNumLikes(data.addLike.numLikes);
+    },
+  });
+  
   
   // now you can use the `id` variable in your component
   console.log('userId', userId);
@@ -76,6 +84,17 @@ function GiphyGallery() {
   
     window.location.href = '/profile';
   };
+
+  const handleLikeClick = () => {
+    if (!Auth.loggedIn()) return;
+  
+    addLike({
+      variables: {
+        memeId: selectedGif.id,
+      },
+    });
+  };
+  
   
 
   
@@ -135,9 +154,19 @@ function GiphyGallery() {
                 Log in to save
               </Link>
             )}
-            {Auth.loggedIn() && <button className="px-4 py-2 border rounded">Like</button>}
+            {Auth.loggedIn() && (
+              <button
+                className={`
+                  px-4 py-2 border rounded
+                  ${numLikes > 0 ? "bg-green-500 text-white" : ""}
+                `}
+                onClick={handleLikeClick}
+              >
+                {numLikes > 0 ? `${numLikes} likes` : "Like"}
+              </button>
+            )}
           </div>
-        </div>
+        </div>      
       ) : (
         <div className="gallery grid grid-cols-2 gap-4">
           {gifs.map((gif) => (

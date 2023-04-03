@@ -113,50 +113,36 @@ const resolvers = {
     // checking if the meme exists
     // checking if the user has already liked the meme
     // increment the meme.likes by 1 and save the meme to the db
-    addLike: async (parent, { memeId }, { user }) => {
+    addLike: async (parent, { memeId }, { User, Meme, user }) => {
       if (!user) {
-        throw new Error("Authentication required");
+        throw new AuthenticationError("You need to be logged in to like a meme");
       }
-
+    
       const meme = await Meme.findById(memeId);
+    
       if (!meme) {
-        throw new Error("Meme not found");
+        throw new UserInputError("Invalid meme ID");
       }
-
-      if (meme.likedBy.includes(user._id)) {
-        throw new Error("You have already liked this meme");
+    
+      const hasLiked = meme.likes.includes(user._id);
+    
+      if (hasLiked) {
+        await Meme.findByIdAndUpdate(memeId, {
+          $pull: { likes: user._id },
+          $inc: { numLikes: -1 },
+        });
+      } else {
+        await Meme.findByIdAndUpdate(memeId, {
+          $push: { likes: user._id },
+          $inc: { numLikes: 1 },
+        });
       }
-
-      meme.likes += 1;
-      meme.likedBy.push(user._id);
-      await meme.save();
-      return meme;
-    }, // addLike
-
-    //add mutation for removing a like from a meme
-    // finding the meme by id
-    // checking if the meme exists
-    // checking if the user has already liked the meme
-    // decrement the meme.likes by 1 and save the meme to the db
-    removeLike: async (parent, { memeId }, { user }) => {
-      const meme = await Meme.findById(memeId);
-      if (!meme) {
-        throw new Error("Meme not found");
-      }
-
-      if (!meme.likedBy.includes(user._id)) {
-        throw new Error("You have not liked this meme");
-      }
-
-      // filter likedBy array to remove user._id from someone who is unliking the meme
-      meme.likedBy = meme.likedBy.filter(
-        (userId) => userId.toString() !== user._id.toString()
-      );
-      meme.likes -= 1;
-      await meme.save();
-
-      return meme;
-    }, // removeLike
+    
+      return {
+        numLikes: meme.numLikes,
+        hasLiked: !hasLiked,
+      };
+    }, // addLike    
   }, // Mutation
 }; // resolvers
 
