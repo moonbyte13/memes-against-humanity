@@ -3,9 +3,11 @@ import Memes from "../components/Memes";
 
 function MemesPage() {
   return (
-    <div>
-      <h1>Latest Memes</h1>
-      <Memes />
+    <div class="mt-10">
+      <h1 class="text-4xl font-futura mb-4">Latest Memes</h1>
+      <div>
+        <Memes />
+      </div>
     </div>
   );
 }
