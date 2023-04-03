@@ -11,7 +11,6 @@ const typeDefs = gql`
 
   type Meme {
     _id: ID
-    title: String
     memeId: String!
     imageUrl: String
     creator: User
@@ -42,14 +41,14 @@ const typeDefs = gql`
   type Mutation {
     login(email: String!, password: String!): Auth # returns an Auth object containing a token and user
     addUser(username: String!, email: String!, password: String!): Auth # returns a User object
-    createMeme(title: String!, imageUrl: String!): Meme! # returns a Meme object
-    updateMeme(id: ID!, title: String!, imageUrl: String!): Meme! # returns a Meme object
+    # createMeme(title: String!, imageUrl: String!): Meme! # returns a Meme object
+    # updateMeme(id: ID!, title: String!, imageUrl: String!): Meme! # returns a Meme object
     deleteMeme(id: ID!): Meme! # returns a Meme object
     addLike(memeId: ID!): Meme
     removeLike(memeId: ID!): Meme
-    saveMeme(memeId: ID!, imageUrl: String!): Meme!
+    # saveMeme(memeId: ID!, imageUrl: String!): Meme!
     saveMemeAndUser(userId: ID!, memeId: String!, imageUrl: String!): User!
-    saveUserMeme(userId: ID!, memeId: String!): User!
+    # saveUserMeme(userId: ID!, memeId: String!): User!
   }
 `;
 

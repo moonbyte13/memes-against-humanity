@@ -14,11 +14,11 @@ function GiphyGallery() {
   const { id } = useParams(); // get the ID from the URL params
   const [saveMemeAndUser] = useMutation(SAVE_MEME_AND_USER);
   const userId = Auth.getCurrentUserId();
-  console.log('userId', id ); 
+  console.log('memeId', id ); 
 
   
   // now you can use the `id` variable in your component
-  console.log('id', id);
+  console.log('userId', userId);
   useEffect(() => {
     async function fetchGifs() {
       let query = '';
@@ -53,12 +53,13 @@ function GiphyGallery() {
   ];
 
   // define the onClick handler for the "Save" button
+  // define the onClick handler for the "Save" button
   const handleSave = () => {
-    if (!selectedGif) return;
+    if (!Auth.loggedIn() || !selectedGif) return;
 
     saveMemeAndUser({
       variables: {
-        userId: id,
+        userId: userId,
         memeId: selectedGif.id.toString(),
         imageUrl: selectedGif.images.downsized_medium.url,
       },
@@ -70,6 +71,7 @@ function GiphyGallery() {
         console.error(error.message);
       });
   };
+
   
 
   return (

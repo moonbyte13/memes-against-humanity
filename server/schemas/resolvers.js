@@ -78,16 +78,16 @@ const resolvers = {
     // the creator field is populated with the user._id
     // creating a new Meme instance with the title and imageUrl arguments
     // saving the meme to the db
-    createMeme: async (parent, { title, imageUrl }, { user }) => {
+    /* createMeme: async (parent, { title, imageUrl }, { user }) => {
       if (!user) {
         throw new Error("Authentication required");
       }
       const meme = new Meme({ title, imageUrl, creator: user._id });
       await meme.save();
       return meme;
-    }, // createMeme
+    }, */ // createMeme
 
-    saveMeme: async (_, { memeId, imageUrl }) => {
+    /* saveMeme: async (_, { memeId, imageUrl }) => {
       try {
         const meme = new Meme({ memeId, imageUrl });
         const savedMeme = await meme.save();
@@ -96,9 +96,9 @@ const resolvers = {
         console.error(error);
         throw new Error('Error saving meme');
       }
-    },
+    }, */
     
-    saveUserMeme: async (_, { userId, memeId }) => {
+    /* saveUserMeme: async (parent, { userId, memeId }) => {
       try {
         const user = await User.findById(userId);
         user.memes.push(memeId);
@@ -108,9 +108,9 @@ const resolvers = {
         console.error(error);
         throw new Error('Error saving user meme');
       }
-    },
+    }, */
     
-    saveMemeAndUser: async (_, { userId, memeId, imageUrl }) => {
+    saveMemeAndUser: async (parent, { userId, memeId, imageUrl }) => {
       try {
         const meme = new Meme({ memeId, imageUrl });
         const savedMeme = await meme.save();
@@ -130,7 +130,7 @@ const resolvers = {
     // checking if the user is the creator of the meme
     // updating the title and imageUrl fields
     // saving the meme to the db
-    updateMeme: async (parent, { id, title, imageUrl }, { user }) => {
+    /* updateMeme: async (parent, { id, title, imageUrl }, { user }) => {
       if (!user) {
         throw new Error("Authentication required");
       }
@@ -145,7 +145,7 @@ const resolvers = {
       meme.imageUrl = imageUrl || meme.imageUrl;
       await meme.save();
       return meme;
-    }, // updateMeme
+    }, */ // updateMeme
 
     //add mutation for deleting a meme
     // finding the meme by id
