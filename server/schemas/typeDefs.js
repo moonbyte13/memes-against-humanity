@@ -11,7 +11,7 @@ const typeDefs = gql`
 
   type Meme {
     _id: ID
-    memeId: String!
+    memeId: String
     imageUrl: String
     creator: User
     likes: [Int]
