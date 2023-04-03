@@ -106,7 +106,7 @@ function GiphyGallery() {
       <div className="flex justify-between items-center mb-4">
         <div className="flex items-center">
           <select
-            className="px-2 py-1 border rounded mr-2 text-lg"
+            className="px-2 py-1 border rounded mr-2 text-2xl"
             value={searchTerm ? searchTerm : selectedSubcategory}
             onChange={(e) => {
               setSelectedSubcategory(e.target.value);
@@ -123,7 +123,7 @@ function GiphyGallery() {
           <input
             type="text"
             placeholder="Search for GIFs"
-            className="px-2 py-1 border rounded text-lg"
+            className="px-2 py-1 border rounded text-2xl"
             value={searchTerm}
             onChange={(e) => {
               setSearchTerm(e.target.value);
