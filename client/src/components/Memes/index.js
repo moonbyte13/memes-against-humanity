@@ -14,7 +14,7 @@ function GiphyGallery() {
 
   const [gifs, setGifs] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [selectedSubcategory, setSelectedSubcategory] = useState("Fail");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("Spongebob");
   const { id } = useParams(); // get the ID from the URL params
   const [saveMemeAndUser] = useMutation(SAVE_MEME_AND_USER);
   const userId = Auth.getCurrentUserId();
